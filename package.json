@@ -16,6 +16,7 @@
     "browser-sync": "~2.9.11",
     "groc": "^0.8.0",
     "gulp": "~3.9.0",
+    "gulp-angular-protractor": "0.0.5",
     "gulp-clean": "^0.3.1",
     "gulp-groc": "^0.4.1",
     "gulp-jasmine": "^2.2.0",

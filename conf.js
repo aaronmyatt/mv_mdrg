@@ -3,14 +3,11 @@ exports.config = {
 
     capabilities: {
         'browserName': 'chrome'
-          
     },
 
-    specs: ['./test/e2e/**/*.js'],
+    specs: ['./spec/e2e/**/*.js'],
 
     jasmineNodeOpts: {
         showColors: true
-          
     }
-    
 };

@@ -1,6 +1,6 @@
 describe('angularjs homepage', function() {
-  it('should greet the named user', function() {
-    browser.get('http://www.angularjs.org');
+  it('Template page should display', function() {
+    browser.get('127.0.0.1:3000');
   });
 
 //   describe('todo list', function() {

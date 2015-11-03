@@ -2,6 +2,7 @@ var gulp              = require('gulp');
 var browserSync = require('browser-sync');
 var reload           = browserSync.reload;
 var harp              = require('harp');
+var angularProtractor = require('gulp-angular-protractor');
 var protractorQA = require('gulp-protractor-qa');
 var shell              = require('gulp-shell');
 var groc               = require("gulp-groc");
@@ -9,53 +10,97 @@ var clean              = require('gulp-clean');
 
 (function (){
 
+    // Jasmine + Groc
+    // --------------------
+
+    // Leveraging the wonderful [gulp-shell](https://github.com/sun-zheng-an/gulp-shell)
+    // we can simplify our gulp file by directly calling the Jasmine and Groc runners with
+    // their shell commands
+
+    // [Jasmine](http://jasmine.github.io/2.3/introduction.html)
+    // While it is my belief that we can cover a lot of our testing requirements with Protractor
+    // unittestings will inevitably be required when doing complex client side processing.
+    // A use case of note is Angular factories/services
     gulp.task('jasmine',
         shell.task([
             'echo Runnig Jasmine Tests',
             'jasmine'
         ]));
-    /**
-     * Serve the Harp Site from the src directory
-     */
+
+    // [Groc](https://github.com/nevir/groc)
+    // Documentation Documentation Documentation! As critical as testing. Where testing
+    // enables us to test our assumptions and generate confidence in our program execution
+    // documentation allows us to communicate our programs to the most important developer
+    // in any project - ourselves!
+    // Here we use the wonderful Groc tool which embodies [Robert Knuth's](https://en.wikipedia.org/wiki/Literate_programming)
+    // literate programming discipline.
+    gulp.task('doc',
+        shell.task([
+            'echo Building Docs',
+            'groc'
+        ]));
+
+    // Harp + Browser-sync
+    // ---------------------------
+
+    // The meat of our gulpfile.
+    // [Harp](http://harpjs.com/), a beautiful static server/preprocessor harmony!
+    // [Browser-sync](http://www.browsersync.io/), everything Livereload can do, and more, for free!
+    
+    // Serve the Harp Site from the src directory
     gulp.task('serve', function () {
         harp.server("./static/", {
             port: 9000
         }, function () {
+            // Drop in browser-sync
             browserSync({
                 browser: "google chrome canary",
                 proxy: "localhost:9000",
                 open: false,
-                /* Hide the notification. It gets annoying */
+                // Hide the notifications.
                 notify: {
                     styles: ['opacity: 0', 'position: absolute']
                 }
             });
-            /**
-             * Watch for scss changes, tell BrowserSync to refresh main.css
-         */        
+
+            // Once the dev server is loaded we fire off the watchers that we automate the important
+            // parts of our workflow.
             gulp.watch("*.sass", function () {
                 reload("./static/css/main.css", {stream: true});
             });
-        
-            /**
-             * Watch all other changes, reload the whole page
-             */
-            gulp.watch(["./static/**/*.jade", "./static/**/*.js", "./static/**/*.json"], function () {
-                reload();
-            });
-
+            gulp.watch(["./static/**/*.jade", "./static/**/*.js", "./static/**/*.json"],
+                       function () {
+                           reload();
+                       });
             gulp.watch(["./spec/unit/**/*spec.js", "!./spec/e2e/"], ["jasmine"]);
+            gulp.watch(["./static/js/**/*.js"], ["docs"]);
         });
     });
+    
+    // Protractor + [ProtractorQA](https://www.npmjs.com/package/gulp-protractor-qa)
+    // ---------------------
 
-    // e2e test notifcation https://github.com/ramonvictor/gulp-protractor-qa
-    gulp.task('protractor-qa', function() {
+    // A seemingly simple gulp package that will quickly ensure our html selectors are present
+    // this should reduce the overhead from having to run protactor continuously.
+    gulp.task('protractor', function() {
+        
+        gulp.src(['./src/tests/*.js'])
+            .pipe(angularProtractor({
+                'configFile': './conf.js',
+                'args': ['--baseUrl', 'http://127.0.0.1:3000'],
+                'autoStartStopServer': true,
+                'debug': true
+            }))
+            .on('error', function(e) {
+                console.log(e);
+            });
+        
 	protractorQA.init({
 	    testSrc: 'spec/e2e/**/*spec.js',
 	    viewSrc: ['./static/**/*.jade']
 	});
     });
 
-    gulp.task('default', ["serve", "protractor-qa"]);
+    gulp.task('default', ["serve", "protractor"]);
 
 })();

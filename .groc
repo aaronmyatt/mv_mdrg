@@ -1,3 +1,0 @@
-{
-  "glob": ["./static/js/**/*.js", "readme.md"]
-}
