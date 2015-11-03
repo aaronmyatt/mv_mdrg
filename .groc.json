@@ -1,0 +1,4 @@
+{
+    "glob": ["./readme.md", "./gulpfile.js", "./static/js/**/*.js"]
+}
+
