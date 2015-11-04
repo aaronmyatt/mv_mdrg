@@ -2,6 +2,7 @@
 <span class="hljs-keyword">var</span> browserSync = <span class="hljs-built_in">require</span>(<span class="hljs-string">'browser-sync'</span>);
 <span class="hljs-keyword">var</span> reload           = browserSync.reload;
 <span class="hljs-keyword">var</span> harp              = <span class="hljs-built_in">require</span>(<span class="hljs-string">'harp'</span>);
+<span class="hljs-keyword">var</span> angularProtractor = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-angular-protractor'</span>);
 <span class="hljs-keyword">var</span> protractorQA = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-protractor-qa'</span>);
 <span class="hljs-keyword">var</span> shell              = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-shell'</span>);
 <span class="hljs-keyword">var</span> groc               = <span class="hljs-built_in">require</span>(<span class="hljs-string">"gulp-groc"</span>);
@@ -49,12 +50,24 @@ parts of our workflow.</p></div></div><div class="code"><div class="wrapper">   
             gulp.watch([<span class="hljs-string">"./static/js/**/*.js"</span>], [<span class="hljs-string">"docs"</span>]);
         });
     });
-    </div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="-protractorqa-https-www-npmjs-com-package-gulp-protractor-qa-"><a href="https://www.npmjs.com/package/gulp-protractor-qa">ProtractorQA</a></h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>A seemingly simple gulp package that will quickly ensure our html selectors are present
-this should reduce the overhead from having to run protactor continuously.</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'protractor-qa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    </div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="protractor-protractorqa-https-www-npmjs-com-package-gulp-protractor-qa-">Protractor + <a href="https://www.npmjs.com/package/gulp-protractor-qa">ProtractorQA</a></h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>A seemingly simple gulp package that will quickly ensure our html selectors are present
+this should reduce the overhead from having to run protactor continuously.</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'protractorqa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
 	protractorQA.init({
 	    testSrc: <span class="hljs-string">'spec/e2e/**/*spec.js'</span>,
 	    viewSrc: [<span class="hljs-string">'./static/**/*.jade'</span>]
 	});
-    });</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>And with only two tasks to run we recieve a lot of power, convenience and development speed.</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'default'</span>, [<span class="hljs-string">"serve"</span>, <span class="hljs-string">"protractor-qa"</span>]);
+    });</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Since ProtractorQA will generate a great deal of confidence in our e2e tests in itself, we can
+reserve running a heavy protractor run before commits and major pushes.</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">"protractor"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+        gulp.src([<span class="hljs-string">'./spec/e2e/**/*.js'</span>])
+            .pipe(angularProtractor({
+                <span class="hljs-string">'configFile'</span>: <span class="hljs-string">'./conf.js'</span>,
+                <span class="hljs-string">'args'</span>: [<span class="hljs-string">'--baseUrl'</span>, <span class="hljs-string">'http://127.0.0.1:3000'</span>],
+                <span class="hljs-string">'autoStartStopServer'</span>: <span class="hljs-literal">true</span>,
+                <span class="hljs-string">'debug'</span>: <span class="hljs-literal">true</span>
+            }))
+            .on(<span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+                <span class="hljs-built_in">console</span>.log(e);
+            }); 
+    });</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Finally, our default task to fire off all the goodies we care about!</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'default'</span>, [<span class="hljs-string">"serve"</span>, <span class="hljs-string">"protractorqa"</span>]);
 
 })();</div></div></div></div></body></html>

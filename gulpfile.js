@@ -7,6 +7,8 @@ var protractorQA = require('gulp-protractor-qa');
 var shell              = require('gulp-shell');
 var groc               = require("gulp-groc");
 var clean              = require('gulp-clean');
+var bowerFiles      = require('main-bower-files');
+var inject              = require('gulp-inject');
 
 (function (){
 
@@ -82,9 +84,17 @@ var clean              = require('gulp-clean');
 
     // A seemingly simple gulp package that will quickly ensure our html selectors are present
     // this should reduce the overhead from having to run protactor continuously.
-    gulp.task('protractor', function() {
-        
-        gulp.src(['./src/tests/*.js'])
+    gulp.task('protractorqa', function() {
+	protractorQA.init({
+	    testSrc: 'spec/e2e/**/*spec.js',
+	    viewSrc: ['./static/**/*.jade']
+	});
+    });
+
+    // Since ProtractorQA will generate a great deal of confidence in our e2e tests in itself, we can
+    // reserve running a heavy protractor run before commits and major pushes.
+    gulp.task("protractor", function(){
+        gulp.src(['./spec/e2e/**/*.js'])
             .pipe(angularProtractor({
                 'configFile': './conf.js',
                 'args': ['--baseUrl', 'http://127.0.0.1:3000'],
@@ -93,14 +103,18 @@ var clean              = require('gulp-clean');
             }))
             .on('error', function(e) {
                 console.log(e);
-            });
-        
-	protractorQA.init({
-	    testSrc: 'spec/e2e/**/*spec.js',
-	    viewSrc: ['./static/**/*.jade']
-	});
+            }); 
     });
 
-    gulp.task('default', ["serve", "protractor"]);
+    gulp.task("inject", function(){
+        gulp.src('./static/_layout.jade')
+            .pipe(inject(gulp.src(bowerFiles(), {read: false}), {name: 'bower'}))
+            .pipe(gulp.dest('./static/')); 
+    });
+    gulp.watch(["./bower_components/"], ["inject"]);
+    
+
+    // Finally, our default task to fire off all the goodies we care about!
+    gulp.task('default', ["serve", "protractorqa"]);
 
 })();

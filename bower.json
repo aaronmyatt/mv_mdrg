@@ -1,0 +1,24 @@
+{
+  "name": "template_static",
+  "description": "template structure for the static side of a project",
+  "main": "./static/js/index.js",
+  "authors": [
+    "Aaron <aaronmyatt@gmail.com>"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "template"
+  ],
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#~1.4.7"
+  }
+}

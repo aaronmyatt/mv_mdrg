@@ -8,6 +8,9 @@ html.no-js(lang='')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='apple-touch-icon', href='img/apple-touch-icon.png')
     // Place favicon.ico in the root directory
+    <!-- bower:css -->       
+    <!-- bower installed scripts will go here... -->
+    <!-- endinject -->    
     link(rel='stylesheet', href='css/normalize.css')
     link(rel='stylesheet', href='css/main.css')
     script(src='js/vendor/modernizr-2.8.3.min.js')
@@ -16,9 +19,9 @@ html.no-js(lang='')
       p.browserupgrade.
         You are using an <strong>outdated</strong> browser. Please a(href='http://browsehappy.com/') upgrade your browser to improve your experience.
     != yield
-    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
-    script.
-      window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\\/script>')
+    <!-- bower:js -->
+    <!-- bower installed scripts will go here... -->
+    <!-- endinject -->    
     script(src='js/plugins.js')
     script(src='js/main.js')
     // Google Analytics: change UA-XXXXX-X to be your site's ID.
