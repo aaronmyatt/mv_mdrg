@@ -7,8 +7,8 @@ var protractorQA = require('gulp-protractor-qa');
 var shell              = require('gulp-shell');
 var groc               = require("gulp-groc");
 var clean              = require('gulp-clean');
-var bowerFiles      = require('main-bower-files');
-var inject              = require('gulp-inject');
+var wiredep           = require('wiredep').stream;
+var watch             = require('gulp-watch');
 
 (function (){
 
@@ -75,7 +75,7 @@ var inject              = require('gulp-inject');
                            reload();
                        });
             gulp.watch(["./spec/unit/**/*spec.js", "!./spec/e2e/"], ["jasmine"]);
-            gulp.watch(["./static/js/**/*.js"], ["docs"]);
+            gulp.watch(["./static/js/**/*.js"], ["doc"]);
         });
     });
     
@@ -106,13 +106,11 @@ var inject              = require('gulp-inject');
             }); 
     });
 
-    gulp.task("inject", function(){
+    watch("./static/bower_components/**/*.js", function(){
         gulp.src('./static/_layout.jade')
-            .pipe(inject(gulp.src(bowerFiles(), {read: false}), {name: 'bower'}))
-            .pipe(gulp.dest('./static/')); 
-    });
-    gulp.watch(["./bower_components/"], ["inject"]);
-    
+            .pipe(wiredep())
+            .pipe(gulp.dest('./static/'));
+    });    
 
     // Finally, our default task to fire off all the goodies we care about!
     gulp.task('default', ["serve", "protractorqa"]);

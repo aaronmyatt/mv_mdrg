@@ -1,2 +1,3 @@
-// Notable.
-console.log("Hyper cool");
+// Main module
+// Your dependencies should be listed here
+angular.module("app", []);

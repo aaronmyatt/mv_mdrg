@@ -1,5 +1,5 @@
 doctype
-html.no-js(lang='')
+html.no-js(lang="" ng-app="app")
   head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
@@ -8,22 +8,29 @@ html.no-js(lang='')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='apple-touch-icon', href='img/apple-touch-icon.png')
     // Place favicon.ico in the root directory
-    <!-- bower:css -->       
-    <!-- bower installed scripts will go here... -->
-    <!-- endinject -->    
+    // bower:css
+    link(rel='stylesheet', href='bower_components/animate.css/animate.css')
+    // endbower
     link(rel='stylesheet', href='css/normalize.css')
     link(rel='stylesheet', href='css/main.css')
-    script(src='js/vendor/modernizr-2.8.3.min.js')
   body
     //if lt IE 8
       p.browserupgrade.
         You are using an <strong>outdated</strong> browser. Please a(href='http://browsehappy.com/') upgrade your browser to improve your experience.
     != yield
-    <!-- bower:js -->
-    <!-- bower installed scripts will go here... -->
-    <!-- endinject -->    
+    // bower:js
+    script(src='bower_components/jquery/dist/jquery.js')
+    script(src='bower_components/angular/angular.js')
+    script(src='bower_components/angular-mocks/angular-mocks.js')
+    script(src='bower_components/ngMessage/ngMessage.js')
+    script(src='bower_components/angular-ui-router/release/angular-ui-router.js')
+    script(src='bower_components/ngstorage/ngStorage.js')
+    script(src='bower_components/angular-cache/dist/angular-cache.js')
+    script(src='bower_components/angular-bootstrap/ui-bootstrap-tpls.js')
+    script(src='bower_components/angular-auth-interceptor/authHandler.js')
+    // endbower
     script(src='js/plugins.js')
-    script(src='js/main.js')
+    script(src='js/index.js')
     // Google Analytics: change UA-XXXXX-X to be your site's ID.
     script.
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=

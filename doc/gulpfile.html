@@ -7,6 +7,8 @@
 <span class="hljs-keyword">var</span> shell              = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-shell'</span>);
 <span class="hljs-keyword">var</span> groc               = <span class="hljs-built_in">require</span>(<span class="hljs-string">"gulp-groc"</span>);
 <span class="hljs-keyword">var</span> clean              = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-clean'</span>);
+<span class="hljs-keyword">var</span> wiredep           = <span class="hljs-built_in">require</span>(<span class="hljs-string">'wiredep'</span>).stream;
+<span class="hljs-keyword">var</span> watch             = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-watch'</span>);
 
 (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)</span>{</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="jasmine--groc">Jasmine + Groc</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Leveraging the wonderful <a href="https://github.com/sun-zheng-an/gulp-shell">gulp-shell</a>
 we can simplify our gulp file by directly calling the Jasmine and Groc runners with
@@ -47,7 +49,7 @@ parts of our workflow.</p></div></div><div class="code"><div class="wrapper">   
                            reload();
                        });
             gulp.watch([<span class="hljs-string">"./spec/unit/**/*spec.js"</span>, <span class="hljs-string">"!./spec/e2e/"</span>], [<span class="hljs-string">"jasmine"</span>]);
-            gulp.watch([<span class="hljs-string">"./static/js/**/*.js"</span>], [<span class="hljs-string">"docs"</span>]);
+            gulp.watch([<span class="hljs-string">"./static/js/**/*.js"</span>], [<span class="hljs-string">"doc"</span>]);
         });
     });
     </div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="protractor-protractorqa-https-www-npmjs-com-package-gulp-protractor-qa-">Protractor + <a href="https://www.npmjs.com/package/gulp-protractor-qa">ProtractorQA</a></h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>A seemingly simple gulp package that will quickly ensure our html selectors are present
@@ -68,6 +70,12 @@ reserve running a heavy protractor run before commits and major pushes.</p></div
             .on(<span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
                 <span class="hljs-built_in">console</span>.log(e);
             }); 
-    });</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Finally, our default task to fire off all the goodies we care about!</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'default'</span>, [<span class="hljs-string">"serve"</span>, <span class="hljs-string">"protractorqa"</span>]);
+    });
+
+    watch(<span class="hljs-string">"./static/bower_components/**/*.js"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+        gulp.src(<span class="hljs-string">'./static/_layout.jade'</span>)
+            .pipe(wiredep())
+            .pipe(gulp.dest(<span class="hljs-string">'./static/'</span>));
+    });    </div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Finally, our default task to fire off all the goodies we care about!</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'default'</span>, [<span class="hljs-string">"serve"</span>, <span class="hljs-string">"protractorqa"</span>]);
 
 })();</div></div></div></div></body></html>

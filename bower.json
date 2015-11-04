@@ -19,6 +19,17 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "angularjs#~1.4.7"
+    "angular": "angularjs#~1.4.7",
+    "angular-mocks": "~1.4.7",
+    "ngMessage": "ng-message#~1.0.5-beta.1",
+    "angular-ui-router": "ui-router#~0.2.15",
+    "animate.css": "~3.4.0",
+    "ngstorage": "ng-storage#~0.4.2",
+    "angular-cache": "~4.4.2",
+    "jquery": "~2.1.4",
+    "angular-auth-interceptor": "*"
+  },
+  "resolutions": {
+    "angular": "^1.3.0 || >1.4.0-beta.0"
   }
 }
