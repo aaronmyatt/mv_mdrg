@@ -58,11 +58,11 @@ var watch             = require('gulp-watch');
             browserSync({
                 browser: "google chrome canary",
                 proxy: "localhost:9000",
-                open: false,
+                open: false
                 // Hide the notifications.
-                notify: {
-                    styles: ['opacity: 0', 'position: absolute']
-                }
+                // notify: {
+                //     styles: ['opacity: 0', 'position: absolute']
+                // }
             });
 
             // Once the dev server is loaded we fire off the watchers that we automate the important

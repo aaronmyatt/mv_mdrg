@@ -24,7 +24,17 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "title": "index"
       },
       "depth": 1,
-      "outline": []
+      "outline": [
+        {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "App name: Template App    ",
+            "slug": "app-name-template-app-"
+          },
+          "depth": 2
+        }
+      ]
     }, {
       "type": "file",
       "data": {
@@ -43,26 +53,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "pageTitle": "gulpfile",
         "title": "gulpfile"
       },
-      "depth": 1,
-      "outline": [
-        {
-          "type": "heading",
-          "data": {
-            "level": 2,
-            "title": "Jasmine + Groc",
-            "slug": "jasmine--groc"
-          },
-          "depth": 2
-        }, {
-          "type": "heading",
-          "data": {
-            "level": 2,
-            "title": "Harp + Browser-sync",
-            "slug": "harp--browser-sync"
-          },
-          "depth": 2
-        }
-      ]
+      "depth": 1
     }, {
       "type": "file",
       "data": {
@@ -97,6 +88,35 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "title": "readme"
       },
       "depth": 1
+    }, {
+      "type": "folder",
+      "data": {
+        "path": "template_dir",
+        "title": "template_dir"
+      },
+      "depth": 1,
+      "children": [
+        {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Volumes/Other/Projects/template_project/template_static/static/js/template_dir/template_dir.js",
+            "projectPath": "static/js/template_dir/template_dir.js",
+            "targetPath": "template_dir/template_dir",
+            "pageTitle": "template_dir/template_dir",
+            "title": "template_dir"
+          },
+          "depth": 2
+        }
+      ]
     }
   ];
 
