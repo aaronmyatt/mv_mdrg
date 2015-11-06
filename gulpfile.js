@@ -2,7 +2,9 @@ var gulp              = require('gulp');
 var browserSync = require('browser-sync');
 var reload           = browserSync.reload;
 var harp              = require('harp');
-var angularProtractor = require('gulp-angular-protractor');
+var protractor = require('gulp-protractor').protractor;
+var webdriver_standalone = require('gulp-protractor').webdriver_standalone;
+var webdriver_update = require('gulp-protractor').webdriver_update;
 var protractorQA = require('gulp-protractor-qa');
 var shell              = require('gulp-shell');
 var groc               = require("gulp-groc");
@@ -52,12 +54,12 @@ var watch             = require('gulp-watch');
     // Serve the Harp Site from the src directory
     gulp.task('serve', function () {
         harp.server("./static/", {
-            port: 9000
+            port: 9001
         }, function () {
             // Drop in browser-sync
             browserSync({
                 browser: "google chrome canary",
-                proxy: "localhost:9000",
+                proxy: "localhost:9001",
                 open: false
                 // Hide the notifications.
                 // notify: {
@@ -86,25 +88,25 @@ var watch             = require('gulp-watch');
     // this should reduce the overhead from having to run protactor continuously.
     gulp.task('protractorqa', function() {
 	protractorQA.init({
-	    testSrc: 'spec/e2e/**/*spec.js',
+	    testSrc: 'spec/e2e/**/*.js',
 	    viewSrc: ['./static/**/*.jade']
 	});
     });
 
-    // Since ProtractorQA will generate a great deal of confidence in our e2e tests in itself, we can
-    // reserve running a heavy protractor run before commits and major pushes.
-    gulp.task("protractor", function(){
-        gulp.src(['./spec/e2e/**/*.js'])
-            .pipe(angularProtractor({
-                'configFile': './conf.js',
-                'args': ['--baseUrl', 'http://127.0.0.1:3000'],
-                'autoStartStopServer': true,
-                'debug': true
-            }))
+    gulp.task('webdriver_update', webdriver_update);
+    gulp.task('webdriver_standalone', ["webdriver_update"], webdriver_standalone);
+
+    gulp.task("protractor", ["webdriver_standalone"], function() {
+        gulp.src("./spec/e2e/**/*spec.js")
+            .pipe(protractor({
+                configFile: "./conf.js",
+                args: ['--baseUrl', 'http://127.0.0.1:3000']
+            }))    
             .on('error', function(e) {
-                console.log(e);
-            }); 
+                throw e;
+            });
     });
+
 
     watch("./static/bower_components/**/*.js", function(){
         gulp.src('./static/_layout.jade')
@@ -113,6 +115,6 @@ var watch             = require('gulp-watch');
     });    
 
     // Finally, our default task to fire off all the goodies we care about!
-    gulp.task('default', ["serve", "protractorqa"]);
+    gulp.task('default', ["serve", "protractorqa", "protractor"]);
 
 })();

@@ -1,7 +1,17 @@
+var index = require("./index_po.js");
+
 describe('angularjs homepage', function() {
-  it('Template page should display', function() {
-    browser.get('127.0.0.1:3000');
+    it('Template page should display', function() {
+        browser.ignoreSynchronization = true;
+        browser.get('http://127.0.0.1:3000');
   });
+});
+
+describe('base tempalate header', function() {
+  it("should be using a md-subheader element", function() {
+      index.header;
+  });
+});
 
 //   describe('todo list', function() {
 //     var todoList;
@@ -27,5 +37,5 @@ describe('angularjs homepage', function() {
 //       expect(todoList.count()).toEqual(3);
 //       expect(todoList.get(2).getText()).toEqual('write a protractor test');
 //     });
-   });
+   // });
 // });
