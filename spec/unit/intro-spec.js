@@ -4,3 +4,9 @@ describe("A suite", function() {
     expect(true).toBe(true);
   });
 });
+
+describe("template service", function (){
+    beforeEach(module("app"));
+
+    
+});

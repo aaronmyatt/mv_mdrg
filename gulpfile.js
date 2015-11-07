@@ -1,16 +1,16 @@
-var gulp              = require('gulp');
-var browserSync = require('browser-sync');
-var reload           = browserSync.reload;
-var harp              = require('harp');
-var protractor = require('gulp-protractor').protractor;
+var gulp                 = require('gulp');
+var browserSync          = require('browser-sync');
+var reload               = browserSync.reload;
+var harp                 = require('harp');
+var protractor           = require('gulp-protractor').protractor;
 var webdriver_standalone = require('gulp-protractor').webdriver_standalone;
-var webdriver_update = require('gulp-protractor').webdriver_update;
-var protractorQA = require('gulp-protractor-qa');
-var shell              = require('gulp-shell');
-var groc               = require("gulp-groc");
-var clean              = require('gulp-clean');
-var wiredep           = require('wiredep').stream;
-var watch             = require('gulp-watch');
+var webdriver_update     = require('gulp-protractor').webdriver_update;
+var protractorQA         = require('gulp-protractor-qa');
+var shell                = require('gulp-shell');
+var groc                 = require("gulp-groc");
+var clean                = require('gulp-clean');
+var wiredep              = require('wiredep').stream;
+var watch                = require('gulp-watch');
 
 (function (){
 
@@ -26,10 +26,10 @@ var watch             = require('gulp-watch');
     // unittestings will inevitably be required when doing complex client side processing.
     // A use case of note is Angular factories/services
     gulp.task('jasmine',
-        shell.task([
-            'echo Runnig Jasmine Tests',
-            'jasmine'
-        ]));
+              shell.task([
+                  "echo running Karma",
+                  "karma start karma.conf.js"
+              ], {"ignoreErrors": true}));
 
     // [Groc](https://github.com/nevir/groc)
     // Documentation Documentation Documentation! As critical as testing. Where testing
@@ -38,7 +38,7 @@ var watch             = require('gulp-watch');
     // in any project - ourselves!
     // Here we use the wonderful Groc tool which embodies [Robert Knuth's](https://en.wikipedia.org/wiki/Literate_programming)
     // literate programming discipline.
-    gulp.task('doc',
+    gulp.task('docs',
         shell.task([
             'echo Building Docs',
             'groc'
@@ -77,7 +77,7 @@ var watch             = require('gulp-watch');
                            reload();
                        });
             gulp.watch(["./spec/unit/**/*spec.js", "!./spec/e2e/"], ["jasmine"]);
-            gulp.watch(["./static/js/**/*.js"], ["doc"]);
+            gulp.watch(["./static/js/**/*.js"], ["docs"]);
         });
     });
     
@@ -107,14 +107,19 @@ var watch             = require('gulp-watch');
             });
     });
 
-
     watch("./static/bower_components/**/*.js", function(){
         gulp.src('./static/_layout.jade')
             .pipe(wiredep())
             .pipe(gulp.dest('./static/'));
-    });    
+    });
+
+    gulp.task("wireup", function(){
+        gulp.src("./static/_layout.jade")
+            .pipe(wiredep())
+            .pipe(gulp.dest('./static/')); 
+    });
 
     // Finally, our default task to fire off all the goodies we care about!
-    gulp.task('default', ["serve", "protractorqa", "protractor"]);
+    gulp.task('default', ["serve", "protractorqa", "protractor", "docs", "jasmine", "wireup"]);
 
 })();

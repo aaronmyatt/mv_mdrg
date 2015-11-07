@@ -1,14 +1,16 @@
-<!DOCTYPE html><html lang="en"><head><title>gulpfile</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="gulpfile"><meta name="groc-project-path" content="gulpfile.js"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path">gulpfile.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> gulp              = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp'</span>);
-<span class="hljs-keyword">var</span> browserSync = <span class="hljs-built_in">require</span>(<span class="hljs-string">'browser-sync'</span>);
-<span class="hljs-keyword">var</span> reload           = browserSync.reload;
-<span class="hljs-keyword">var</span> harp              = <span class="hljs-built_in">require</span>(<span class="hljs-string">'harp'</span>);
-<span class="hljs-keyword">var</span> angularProtractor = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-angular-protractor'</span>);
-<span class="hljs-keyword">var</span> protractorQA = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-protractor-qa'</span>);
-<span class="hljs-keyword">var</span> shell              = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-shell'</span>);
-<span class="hljs-keyword">var</span> groc               = <span class="hljs-built_in">require</span>(<span class="hljs-string">"gulp-groc"</span>);
-<span class="hljs-keyword">var</span> clean              = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-clean'</span>);
-<span class="hljs-keyword">var</span> wiredep           = <span class="hljs-built_in">require</span>(<span class="hljs-string">'wiredep'</span>).stream;
-<span class="hljs-keyword">var</span> watch             = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-watch'</span>);
+<!DOCTYPE html><html lang="en"><head><title>gulpfile</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="gulpfile"><meta name="groc-project-path" content="gulpfile.js"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path">gulpfile.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> gulp                 = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp'</span>);
+<span class="hljs-keyword">var</span> browserSync          = <span class="hljs-built_in">require</span>(<span class="hljs-string">'browser-sync'</span>);
+<span class="hljs-keyword">var</span> reload               = browserSync.reload;
+<span class="hljs-keyword">var</span> harp                 = <span class="hljs-built_in">require</span>(<span class="hljs-string">'harp'</span>);
+<span class="hljs-keyword">var</span> protractor           = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-protractor'</span>).protractor;
+<span class="hljs-keyword">var</span> webdriver_standalone = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-protractor'</span>).webdriver_standalone;
+<span class="hljs-keyword">var</span> webdriver_update     = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-protractor'</span>).webdriver_update;
+<span class="hljs-keyword">var</span> protractorQA         = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-protractor-qa'</span>);
+<span class="hljs-keyword">var</span> shell                = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-shell'</span>);
+<span class="hljs-keyword">var</span> groc                 = <span class="hljs-built_in">require</span>(<span class="hljs-string">"gulp-groc"</span>);
+<span class="hljs-keyword">var</span> clean                = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-clean'</span>);
+<span class="hljs-keyword">var</span> wiredep              = <span class="hljs-built_in">require</span>(<span class="hljs-string">'wiredep'</span>).stream;
+<span class="hljs-keyword">var</span> watch                = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-watch'</span>);
 
 (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)</span>{</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="jasmine--groc">Jasmine + Groc</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Leveraging the wonderful <a href="https://github.com/sun-zheng-an/gulp-shell">gulp-shell</a>
 we can simplify our gulp file by directly calling the Jasmine and Groc runners with
@@ -16,16 +18,16 @@ their shell commands</p></div></div></div><div class="segment"><div class="comme
 While it is my belief that we can cover a lot of our testing requirements with Protractor
 unittestings will inevitably be required when doing complex client side processing.
 A use case of note is Angular factories/services</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'jasmine'</span>,
-        shell.task([
-            <span class="hljs-string">'echo Runnig Jasmine Tests'</span>,
-            <span class="hljs-string">'jasmine'</span>
-        ]));</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><a href="https://github.com/nevir/groc">Groc</a>
+              shell.task([
+                  <span class="hljs-string">"echo running Karma"</span>,
+                  <span class="hljs-string">"karma start karma.conf.js"</span>
+              ], {<span class="hljs-string">"ignoreErrors"</span>: <span class="hljs-literal">true</span>}));</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><a href="https://github.com/nevir/groc">Groc</a>
 Documentation Documentation Documentation! As critical as testing. Where testing
 enables us to test our assumptions and generate confidence in our program execution
 documentation allows us to communicate our programs to the most important developer
 in any project - ourselves!
 Here we use the wonderful Groc tool which embodies <a href="https://en.wikipedia.org/wiki/Literate_programming">Robert Knuth&#39;s</a>
-literate programming discipline.</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'doc'</span>,
+literate programming discipline.</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'docs'</span>,
         shell.task([
             <span class="hljs-string">'echo Building Docs'</span>,
             <span class="hljs-string">'groc'</span>
@@ -33,10 +35,10 @@ literate programming discipline.</p></div></div><div class="code"><div class="wr
 <a href="http://harpjs.com/">Harp</a>, a beautiful static server/preprocessor harmony!
 <a href="http://www.browsersync.io/">Browser-sync</a>, everything Livereload can do, and more, for free!</p></div></div><div class="code"><div class="wrapper">    </div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Serve the Harp Site from the src directory</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'serve'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
         harp.server(<span class="hljs-string">"./static/"</span>, {
-            port: <span class="hljs-number">9000</span>
+            port: <span class="hljs-number">9001</span>
         }, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Drop in browser-sync</p></div></div><div class="code"><div class="wrapper">            browserSync({
                 browser: <span class="hljs-string">"google chrome canary"</span>,
-                proxy: <span class="hljs-string">"localhost:9000"</span>,
+                proxy: <span class="hljs-string">"localhost:9001"</span>,
                 open: <span class="hljs-literal">false</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Hide the notifications.
 notify: {
     styles: [&#39;opacity: 0&#39;, &#39;position: absolute&#39;]</p></div></div><div class="code"><div class="wrapper">                <span class="hljs-comment">// </span>
@@ -49,33 +51,41 @@ parts of our workflow.</p></div></div><div class="code"><div class="wrapper">   
                            reload();
                        });
             gulp.watch([<span class="hljs-string">"./spec/unit/**/*spec.js"</span>, <span class="hljs-string">"!./spec/e2e/"</span>], [<span class="hljs-string">"jasmine"</span>]);
-            gulp.watch([<span class="hljs-string">"./static/js/**/*.js"</span>], [<span class="hljs-string">"doc"</span>]);
+            gulp.watch([<span class="hljs-string">"./static/js/**/*.js"</span>], [<span class="hljs-string">"docs"</span>]);
         });
     });
     </div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="protractor-protractorqa-https-www-npmjs-com-package-gulp-protractor-qa-">Protractor + <a href="https://www.npmjs.com/package/gulp-protractor-qa">ProtractorQA</a></h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>A seemingly simple gulp package that will quickly ensure our html selectors are present
 this should reduce the overhead from having to run protactor continuously.</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'protractorqa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
 	protractorQA.init({
-	    testSrc: <span class="hljs-string">'spec/e2e/**/*spec.js'</span>,
+	    testSrc: <span class="hljs-string">'spec/e2e/**/*.js'</span>,
 	    viewSrc: [<span class="hljs-string">'./static/**/*.jade'</span>]
 	});
-    });</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Since ProtractorQA will generate a great deal of confidence in our e2e tests in itself, we can
-reserve running a heavy protractor run before commits and major pushes.</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">"protractor"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-        gulp.src([<span class="hljs-string">'./spec/e2e/**/*.js'</span>])
-            .pipe(angularProtractor({
-                <span class="hljs-string">'configFile'</span>: <span class="hljs-string">'./conf.js'</span>,
-                <span class="hljs-string">'args'</span>: [<span class="hljs-string">'--baseUrl'</span>, <span class="hljs-string">'http://127.0.0.1:3000'</span>],
-                <span class="hljs-string">'autoStartStopServer'</span>: <span class="hljs-literal">true</span>,
-                <span class="hljs-string">'debug'</span>: <span class="hljs-literal">true</span>
-            }))
+    });
+
+    gulp.task(<span class="hljs-string">'webdriver_update'</span>, webdriver_update);
+    gulp.task(<span class="hljs-string">'webdriver_standalone'</span>, [<span class="hljs-string">"webdriver_update"</span>], webdriver_standalone);
+
+    gulp.task(<span class="hljs-string">"protractor"</span>, [<span class="hljs-string">"webdriver_standalone"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        gulp.src(<span class="hljs-string">"./spec/e2e/**/*spec.js"</span>)
+            .pipe(protractor({
+                configFile: <span class="hljs-string">"./conf.js"</span>,
+                args: [<span class="hljs-string">'--baseUrl'</span>, <span class="hljs-string">'http://127.0.0.1:3000'</span>]
+            }))    
             .on(<span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
-                <span class="hljs-built_in">console</span>.log(e);
-            }); 
+                <span class="hljs-keyword">throw</span> e;
+            });
     });
 
     watch(<span class="hljs-string">"./static/bower_components/**/*.js"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
         gulp.src(<span class="hljs-string">'./static/_layout.jade'</span>)
             .pipe(wiredep())
             .pipe(gulp.dest(<span class="hljs-string">'./static/'</span>));
-    });    </div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Finally, our default task to fire off all the goodies we care about!</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'default'</span>, [<span class="hljs-string">"serve"</span>, <span class="hljs-string">"protractorqa"</span>]);
+    });
+
+    gulp.task(<span class="hljs-string">"wireup"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+        gulp.src(<span class="hljs-string">"./static/_layout.jade"</span>)
+            .pipe(wiredep())
+            .pipe(gulp.dest(<span class="hljs-string">'./static/'</span>)); 
+    });</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Finally, our default task to fire off all the goodies we care about!</p></div></div><div class="code"><div class="wrapper">    gulp.task(<span class="hljs-string">'default'</span>, [<span class="hljs-string">"serve"</span>, <span class="hljs-string">"protractorqa"</span>, <span class="hljs-string">"protractor"</span>, <span class="hljs-string">"docs"</span>, <span class="hljs-string">"jasmine"</span>, <span class="hljs-string">"wireup"</span>]);
 
 })();</div></div></div></div></body></html>
