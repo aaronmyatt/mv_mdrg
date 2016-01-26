@@ -9,6 +9,9 @@ bower_components/
 auto-save-list
 tramp
 .\#*
+.denv
+.idea/
+lib/
 
 # Org-mode
 .org-id-locations

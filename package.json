@@ -1,10 +1,14 @@
 {
-  "name": "template_static",
+  "name": "MDResumeGenerator",
   "version": "1.0.0",
-  "description": "template structure for the static side of a project",
-  "main": "./static/js/index.js",
+  "description": "Material Design Resume Generator",
+  "main": "./denv/js/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aaronmyatt/mv_mdrg"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "protractor ./conf.js"
   },
   "keywords": [
     "template"
@@ -12,7 +16,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bower": "^1.6.5",
+    "angular-material-icons": "^0.6.0",
+    "bower": "^1.7.4",
     "browser-sync": "~2.9.11",
     "del": "^2.0.2",
     "groc": "^0.8.0",
@@ -22,18 +27,19 @@
     "gulp-jasmine": "^2.2.0",
     "gulp-plumber": "^1.0.1",
     "gulp-protractor": "^1.0.0",
-    "gulp-protractor-qa": "^0.2.0",
     "gulp-shell": "^0.5.1",
     "gulp-watch": "^4.3.5",
     "harp": "~0.19.0",
     "jasmine": "~2.3.2",
     "karma": "~0.13.14",
     "main-bower-files": "^2.9.0",
+    "path": "^0.12.7",
     "protractor": "~2.5.1",
     "wiredep": "^2.2.2"
   },
   "devDependencies": {
     "jasmine-core": "^2.3.4",
+    "karma-angular": "0.0.6",
     "karma-chrome-launcher": "^0.2.1",
     "karma-jasmine": "^0.3.6"
   }

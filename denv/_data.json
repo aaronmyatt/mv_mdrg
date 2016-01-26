@@ -1,0 +1,9 @@
+{
+    "siteTitle": "MD Resume Generator",
+    "404": {
+        "layout": false
+    },
+    "index": {
+        "pageTitle": "Material Design + your resume."
+    }
+}

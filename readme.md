@@ -1,5 +1,3 @@
-HTML boiler plate setup
-https://github.com/bradcliffe/hb-html5-boilerplate
+# Material Design Resume Generator
 
-Gulp-harp-browsersync setup
-http://charliegleason.com/articles/harp-gulp-and-browsersync
+> Challenge/Solution #1: A JSON resume generator.
