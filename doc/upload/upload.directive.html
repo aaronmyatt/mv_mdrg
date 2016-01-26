@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="en"><head><title>upload/upload.directive</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="upload/upload.directive"><meta name="groc-project-path" content="denv/js/upload/upload.directive.js"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">denv/js/upload/upload.directive.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+<span class="hljs-pi">    "use strict"</span>;
+
+    angular
+        .module(<span class="hljs-string">"upload.directive"</span>, [
+            <span class="hljs-string">"ngFileUpload"</span>
+        ])
+        .directive(<span class="hljs-string">'grFileSelect'</span>, grFileSelect)
+        .directive(<span class="hljs-string">"grUploadDirective"</span>, grUploadDirective);
+
+    grFileSelect.$inject = [<span class="hljs-string">"$window"</span>];
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">grFileSelect</span>(<span class="hljs-params">$window</span>) </span>{
+        <span class="hljs-keyword">return</span> {
+            restrict: <span class="hljs-string">'A'</span>,
+            <span class="hljs-built_in">require</span>: <span class="hljs-string">'ngModel'</span>,
+            link: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">scope, el, attr, ctrl</span>) </span>{
+                <span class="hljs-keyword">var</span> fileReader = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">window</span>.FileReader();
+    
+                fileReader.onload = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) </span>{
+                    ctrl.$setViewValue(fileReader.result);
+
+                    <span class="hljs-keyword">if</span> (<span class="hljs-string">'fileLoaded'</span> <span class="hljs-keyword">in</span> attr) {
+                        scope.$<span class="hljs-built_in">eval</span>(attr[<span class="hljs-string">'fileLoaded'</span>]);
+                    }
+                };
+    
+                fileReader.onprogress = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>{
+                    <span class="hljs-keyword">if</span> (<span class="hljs-string">'fileProgress'</span> <span class="hljs-keyword">in</span> attr) {
+                        scope.$<span class="hljs-built_in">eval</span>(attr[<span class="hljs-string">'fileProgress'</span>], {<span class="hljs-string">'$total'</span>: event.total, <span class="hljs-string">'$loaded'</span>: event.loaded});
+                    }
+                };
+    
+                fileReader.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+                    <span class="hljs-keyword">if</span> (<span class="hljs-string">'fileError'</span> <span class="hljs-keyword">in</span> attr) {
+                        scope.$<span class="hljs-built_in">eval</span>(attr[<span class="hljs-string">'fileError'</span>], {<span class="hljs-string">'$error'</span>: fileReader.error});
+                    }
+                };
+    
+                <span class="hljs-keyword">var</span> fileType = attr[<span class="hljs-string">'grFileSelect'</span>];
+    
+                el.bind(<span class="hljs-string">'change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>{
+                    <span class="hljs-keyword">var</span> fileName = e.target.files[<span class="hljs-number">0</span>];
+    
+                    <span class="hljs-keyword">if</span> (fileType === <span class="hljs-string">''</span> || fileType === <span class="hljs-string">'text'</span>) {
+                        fileReader.readAsText(fileName);
+                    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (fileType === <span class="hljs-string">'data'</span>) {
+                        fileReader.readAsDataURL(fileName);
+                    }
+                });
+            }
+        };
+    }
+    
+    grUploadDirective.$inject = [];
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">grUploadDirective</span>(<span class="hljs-params"></span>) </span>{</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="gruploaddirective">grUploadDirective</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Usage:</p>
+<p>Creates:</p></div></div><div class="code"><div class="wrapper">        <span class="hljs-keyword">var</span> directive = {
+            templateUrl:<span class="hljs-string">"js/upload/upload-partial.html"</span>,
+            bindToController: <span class="hljs-literal">true</span>,
+            controller: controller,
+            controllerAs: <span class="hljs-string">'vm'</span>,
+            link: link,
+            restrict: <span class="hljs-string">"E"</span>,
+            scope: {
+            }
+        };
+        <span class="hljs-keyword">return</span> directive;
+
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">link</span>(<span class="hljs-params">scope, element, attrs</span>) </span>{
+        }
+    }
+
+    controller.$inject = [<span class="hljs-string">"$log"</span>];
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">controller</span>(<span class="hljs-params">$log</span>) </span>{
+        $log.info(<span class="hljs-string">"grUploadDirective has been initialized"</span>);
+        <span class="hljs-keyword">var</span> vm = <span class="hljs-keyword">this</span>;
+    }
+})();</div></div></div></div></body></html>
