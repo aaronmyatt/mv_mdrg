@@ -5,5 +5,8 @@
     },
     "index": {
         "pageTitle": "Material Design + your resume."
+    },
+    "views": {
+        "layout": false
     }
 }

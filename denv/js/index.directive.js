@@ -3,11 +3,11 @@
 
     angular
         .module("index.directive", [])
-        .directive("rgIndexDirective", rgIndexDirective);
+        .directive("grIndexDirective", grIndexDirective);
 
-    rgIndexDirective.$inject = [];
-    function rgIndexDirective() {
-        // rgIndexDirective
+    grIndexDirective.$inject = [];
+    function grIndexDirective() {
+        // grIndexDirective
         // ------------
 
         // Usage:
@@ -16,7 +16,7 @@
         //
 
         var directive = {
-            templateUrl:"views.html",
+            template: "View<ui-view></ui-view>",
             bindToController: true,
             controller: controller,
             controllerAs: 'vm',
@@ -34,6 +34,6 @@
     controller.$inject = ["$log"];
     function controller($log) {
 
-        $log.info("rgIndexDirective has been initialized");
+        $log.info("grIndexDirective has been initialized");
     }
 })();

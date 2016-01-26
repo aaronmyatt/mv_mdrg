@@ -1,2 +1,15 @@
 // ./denv/index.html
-section(ui-view="view")
+
+div(ng-cloak)
+  md-fab-toolbar(id="menuButton" direction="left" class="md-fab-top-right")
+    md-fab-trigger()
+      md-button(aria-label="menu-icon" aria-icon="menu" class="md-fab md-success")
+        ng-md-icon(icon="menu" style="fill: white" size="30")
+    md-toolbar
+      md-fab-actions(id="uploadButton" class="md-toolbar-tools")
+        md-button(aria-label="menu-icon" aria-icon="upload" class="")
+          ng-md-icon(icon="file_upload" style="fill: white" size="30")
+        md-button(id="infoButton" aria-label="menu-icon" aria-icon="info" class="")
+          ng-md-icon(icon="info" style="fill: white" size="30")
+
+ui-view

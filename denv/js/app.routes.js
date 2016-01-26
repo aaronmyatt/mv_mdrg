@@ -1,7 +1,7 @@
 (function() {
     "use strict";
 
-    // App name: givereciept
+    // App name: MDRG
     // -------------------
 
     // Description:
@@ -20,19 +20,15 @@
         $stateProvider
             .state('view', {
                 url: '/view',
-                abstract: true,
-                template: '<rg-index-directive></rg-index-directive>'
+                //abstract: true,
+                template: '<gr-index-directive></gr-index-directive>'
             })
             .state('view.upload', {
                 url: '/upload',
-                views: {
-                    'view.upload': {
-                        template: '<rg-upload-directive></rg-upload-directive>'
-                    }
-                }
+                template: '<gr-upload-directive></gr-upload-directive>'
             });
 
-        //$urlRouterProvider.otherwise('/view/upload');
+        $urlRouterProvider.otherwise('/view/upload');
     }
 
 })();
