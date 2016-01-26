@@ -1,1 +1,29 @@
-p UploadPartial
+
+div(layout="row" layout-align="center center")
+  md-card
+    md-card-avatar
+        ng-md-icon(icon="file_upload" style="fill: black" size="60")
+    md-card-header-text(layout="row" layout-align="center center")
+      md-title
+        h2 Upload a JSON file
+    md-card-content(layout="row" layout-align="center center")
+      h4 Upload a file --
+        input(type="file" ng-model="vm.file" gr-file-select="text" file-loaded="myLoaded()" file-error="myError($error)" file-progress="myProgress($total,$loaded)")
+
+
+
+md-card
+  md-card-content(layout="row" layout-align="center center")
+    div(id="uploadPreview")
+      | {{ vm.file }}
+
+//<form ng-app="fileUpload" ng-controller="MyCtrl" name="form">
+//Single Image with validations
+//<div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
+//ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"
+//ngf-resize="{width: 100, height: 100}">Select</div>
+//Multiple files
+//<div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>
+//Drop files: <div ngf-drop ng-model="files" class="drop-box">Drop</div>
+//<button type="submit" ng-click="submit()">submit</button>
+//</form>

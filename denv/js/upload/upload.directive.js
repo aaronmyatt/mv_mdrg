@@ -2,12 +2,58 @@
     "use strict";
 
     angular
-        .module("upload.directive", [])
-        .directive("rgUploadDirective", rgUploadDirective);
+        .module("upload.directive", [
+            "ngFileUpload"
+        ])
+        .directive('grFileSelect', grFileSelect)
+        .directive("grUploadDirective", grUploadDirective);
 
-    rgUploadDirective.$inject = [];
-    function rgUploadDirective() {
-        // rgUploadDirective
+    grFileSelect.$inject = ["$window"];
+    function grFileSelect($window) {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function (scope, el, attr, ctrl) {
+                var fileReader = new $window.FileReader();
+    
+                fileReader.onload = function (data) {
+                    ctrl.$setViewValue(fileReader.result);
+
+                    if ('fileLoaded' in attr) {
+                        scope.$eval(attr['fileLoaded']);
+                    }
+                };
+    
+                fileReader.onprogress = function (event) {
+                    if ('fileProgress' in attr) {
+                        scope.$eval(attr['fileProgress'], {'$total': event.total, '$loaded': event.loaded});
+                    }
+                };
+    
+                fileReader.onerror = function () {
+                    if ('fileError' in attr) {
+                        scope.$eval(attr['fileError'], {'$error': fileReader.error});
+                    }
+                };
+    
+                var fileType = attr['grFileSelect'];
+    
+                el.bind('change', function (e) {
+                    var fileName = e.target.files[0];
+    
+                    if (fileType === '' || fileType === 'text') {
+                        fileReader.readAsText(fileName);
+                    } else if (fileType === 'data') {
+                        fileReader.readAsDataURL(fileName);
+                    }
+                });
+            }
+        };
+    }
+    
+    grUploadDirective.$inject = [];
+    function grUploadDirective() {
+        // grUploadDirective
         // ------------
 
         // Usage:
@@ -33,6 +79,7 @@
 
     controller.$inject = ["$log"];
     function controller($log) {
-        $log.info("rgUploadDirective has been initialized");
+        $log.info("grUploadDirective has been initialized");
+        var vm = this;
     }
 })();
