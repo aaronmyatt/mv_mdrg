@@ -3,7 +3,8 @@
 
     angular
         .module("upload.directive", [
-            "ngFileUpload"
+            "ngFileUpload",
+            "current-upload.service"
         ])
         .directive('grFileSelect', grFileSelect)
         .directive("grUploadDirective", grUploadDirective);
@@ -77,9 +78,17 @@
         }
     }
 
-    controller.$inject = ["$log"];
-    function controller($log) {
+    controller.$inject = ["$log", "$rootScope", "currentUploadService"];
+    function controller($log, $rootScope, currentUploadService) {
         $log.info("grUploadDirective has been initialized");
         var vm = this;
+        vm.file = "Upload your file";
+        $rootScope.$watch(function(){
+            return vm.file;
+        }, function(){
+            $log.info("vm.file changed.");
+            $log.info("notifying current-upload.service.");
+            currentUploadService.updateUpload(vm.file);
+        });
     }
 })();

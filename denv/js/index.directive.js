@@ -16,7 +16,7 @@
         //
 
         var directive = {
-            template: "View<ui-view></ui-view>",
+            template: "<ui-view></ui-view>",
             bindToController: true,
             controller: controller,
             controllerAs: 'vm',

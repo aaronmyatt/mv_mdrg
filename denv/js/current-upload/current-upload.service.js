@@ -4,11 +4,14 @@
     'use strict';
     angular
         .module("current-upload.service", [])
+        .constant("EVENT", {
+            "updateUpload": "updateUpload"
+        })
         .service("currentUploadService", currentUploadService);
 
-    currentUploadService.$inject = ["$log"];
+    currentUploadService.$inject = ["$log", "$rootScope", "EVENT"];
 
-    function currentUploadService($log) {
+    function currentUploadService($log, $rootScope, EVENT) {
         // currentUploadService
         // ------------
 
@@ -26,9 +29,10 @@
         function updateUpload(data) {
             $log.info("currentUploadService.updateUpload() called.");
             _upload = data;
+            $rootScope.$emit(EVENT.updateUpload, "SUCCESS");
         }
 
-        function getUpload(data) {
+        function getUpload() {
             $log.info("currentUploadService.getUpload() called.");
             return _upload;
         }

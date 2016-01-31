@@ -70,18 +70,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "pageTitle": "current-upload/current-upload.service",
             "title": "current-upload.service"
           },
-          "depth": 2,
-          "outline": [
-            {
-              "type": "heading",
-              "data": {
-                "level": 2,
-                "title": "currentUploadService",
-                "slug": "currentuploadservice"
-              },
-              "depth": 2
-            }
-          ]
+          "depth": 2
         }, {
           "type": "file",
           "data": {
@@ -156,6 +145,46 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "title": "readme"
       },
       "depth": 1
+    }, {
+      "type": "folder",
+      "data": {
+        "path": "render",
+        "title": "render"
+      },
+      "depth": 1,
+      "children": [
+        {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Volumes/Other/tmp/mv_application/mv_mdrg/denv/js/render/render.directive.js",
+            "projectPath": "denv/js/render/render.directive.js",
+            "targetPath": "render/render.directive",
+            "pageTitle": "render/render.directive",
+            "title": "render.directive"
+          },
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "grRenderDirective",
+                "slug": "grrenderdirective"
+              },
+              "depth": 2
+            }
+          ]
+        }
+      ]
     }, {
       "type": "folder",
       "data": {
