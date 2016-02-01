@@ -39,9 +39,10 @@
     function controller($log, $rootScope, EVENT, currentUploadService) {
         $log.info("grRenderDirective has been initialized");
         var vm = this;
+        vm.resume = {};
         $rootScope.$on(EVENT.updateUpload, function(){
-            $log.info("updateUpload event received");
             vm.resume = currentUploadService.getUpload();
+            $log.info("updateUpload event received");
         });
     }
 })();

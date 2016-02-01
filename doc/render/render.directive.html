@@ -32,9 +32,10 @@ Creates:</p></div></div><div class="code"><div class="wrapper">        <span cla
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">controller</span>(<span class="hljs-params">$log, $rootScope, EVENT, currentUploadService</span>) </span>{
         $log.info(<span class="hljs-string">"grRenderDirective has been initialized"</span>);
         <span class="hljs-keyword">var</span> vm = <span class="hljs-keyword">this</span>;
+        vm.resume = {};
         $rootScope.$on(EVENT.updateUpload, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-            $log.info(<span class="hljs-string">"updateUpload event received"</span>);
             vm.resume = currentUploadService.getUpload();
+            $log.info(<span class="hljs-string">"updateUpload event received"</span>);
         });
     }
 })();</div></div></div></div></body></html>

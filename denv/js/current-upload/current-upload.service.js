@@ -28,7 +28,7 @@
         ////////////////
         function updateUpload(data) {
             $log.info("currentUploadService.updateUpload() called.");
-            _upload = data;
+            _upload = angular.fromJson(data);
             $rootScope.$emit(EVENT.updateUpload, "SUCCESS");
         }
 

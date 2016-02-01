@@ -21,7 +21,7 @@
         <span class="hljs-comment">////////////////</span>
         <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updateUpload</span>(<span class="hljs-params">data</span>) </span>{
             $log.info(<span class="hljs-string">"currentUploadService.updateUpload() called."</span>);
-            _upload = data;
+            _upload = angular.fromJson(data);
             $rootScope.$emit(EVENT.updateUpload, <span class="hljs-string">"SUCCESS"</span>);
         }
 

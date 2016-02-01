@@ -1,3 +1,32 @@
+//md-content(class="md-padding" layout-xs="column" layout="row")
+//  div(flex-xs flex-gt-xs="50" layout="column")
+//
+div(ng-if="vm.resume")
+  md-grid-list(
+    md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6"
+    md-row-height-gt-md="1:1" md-row-height="2:2"
+    md-gutter="12px" md-gutter-gt-sm="8px")
 
-p Current upload:
-| {{vm.resume}}
+    md-grid-tile(class="gray" md-rowspan="2" md-colspan="2" md-colspan-sm="2")
+      md-card
+        md-card-header
+          md-card-avatar
+            img(ng-src="{{vm.resume.image}}" class="md-user-avatar" alt="profile")
+          md-card-title-text
+            span(class="md-headline") {{ vm.resume.name }}
+            span(class="md-subhead") {{ vm.resume.job_title }}
+
+      md-grid-tile-footer
+        h3 Personal Details
+
+    md-grid-tile( class="red" md-rowspan="2" md-colspan="2" md-colspan-sm="2" ng-repeat="(k,v) in vm.resume.experience")
+      md-grid-tile-header
+        h3 {{k | uppercase}}
+      md-list
+        md-list-item(class="md-3-line" )
+          ng-md-icon(icon="work" style="fill: black" size="60")
+          div(class="md-list-item-text")
+            h4 Position: {{v.position | uppercase }}
+            p {{v.desc}}
+      md-grid-tile-footer
+        h3 Experience

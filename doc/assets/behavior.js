@@ -23,8 +23,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "pageTitle": "app",
         "title": "app"
       },
-      "depth": 1,
-      "outline": []
+      "depth": 1
     }, {
       "type": "file",
       "data": {
@@ -70,7 +69,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "pageTitle": "current-upload/current-upload.service",
             "title": "current-upload.service"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "currentUploadService",
+                "slug": "currentuploadservice"
+              },
+              "depth": 2
+            }
+          ]
         }, {
           "type": "file",
           "data": {
