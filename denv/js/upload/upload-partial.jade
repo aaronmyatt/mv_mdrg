@@ -7,6 +7,7 @@ div(layout="row" layout-align="center center")
       md-title
         h2 Upload a JSON file
     md-card-content(layout="row" layout-align="center center")
+      p Please be advised that this generator expects a fairly simple JSON format to be adheared to, <a href="https://github.com/aaronmyatt/mv_mdrg/blob/master/resume.json">please check here for an example</a>
       h4 Upload a file --
         input(type="file" ng-model="vm.file" gr-file-select="text" file-loaded="myLoaded()" file-error="myError($error)" file-progress="myProgress($total,$loaded)")
 
