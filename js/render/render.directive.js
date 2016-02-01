@@ -48,7 +48,7 @@
         function init(){
             $log.info("grRenderDirective has been initialized");
 
-            $http.get("/resume.json").then(function(data){
+            $http.get("/resume").then(function(data){
                 $log.info("Retreived example json", data);
                 vm.resume = data.data;
             })
