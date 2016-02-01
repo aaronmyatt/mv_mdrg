@@ -69,18 +69,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "pageTitle": "current-upload/current-upload.service",
             "title": "current-upload.service"
           },
-          "depth": 2,
-          "outline": [
-            {
-              "type": "heading",
-              "data": {
-                "level": 2,
-                "title": "currentUploadService",
-                "slug": "currentuploadservice"
-              },
-              "depth": 2
-            }
-          ]
+          "depth": 2
         }, {
           "type": "file",
           "data": {
@@ -120,7 +109,42 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "pageTitle": "gulpfile",
         "title": "gulpfile"
       },
-      "depth": 1
+      "depth": 1,
+      "outline": [
+        {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Jasmine + Groc",
+            "slug": "jasmine--groc"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Harp + Browser-sync",
+            "slug": "harp--browser-sync"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Protractor",
+            "slug": "protractor"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Wiredep",
+            "slug": "wiredep"
+          },
+          "depth": 2
+        }
+      ]
     }, {
       "type": "file",
       "data": {
@@ -152,9 +176,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "projectPath": "readme.md",
         "targetPath": "readme",
         "pageTitle": "readme",
-        "title": "readme"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Material Design Resume Generator",
+            "slug": "material-design-resume-generator",
+            "isFileHeader": true
+          },
+          "depth": 1
+        },
+        "title": "Material Design Resume Generator"
       },
-      "depth": 1
+      "depth": 1,
+      "outline": []
     }, {
       "type": "folder",
       "data": {
@@ -181,18 +216,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "pageTitle": "render/render.directive",
             "title": "render.directive"
           },
-          "depth": 2,
-          "outline": [
-            {
-              "type": "heading",
-              "data": {
-                "level": 2,
-                "title": "grRenderDirective",
-                "slug": "grrenderdirective"
-              },
-              "depth": 2
-            }
-          ]
+          "depth": 2
         }
       ]
     }, {
