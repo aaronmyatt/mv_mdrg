@@ -1,5 +1,0 @@
-{
-    "glob": ["./readme.md", "./gulpfile.js", "./denv/js/**/*.js"],
-    "except": ["./static/bower_components/**/*.js"]
-}
-

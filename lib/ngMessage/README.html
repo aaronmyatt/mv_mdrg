@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="" ng-app="app" class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"><title></title><link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700" rel="stylesheet" type="text/css"><!-- bower:css--><link rel="stylesheet" href="lib/animate.css/animate.css"><link rel="stylesheet" href="lib/angular-material/angular-material.css"><link rel="stylesheet" href="lib/angular-material-icons/angular-material-icons.css"><!-- endbower--><link rel="stylesheet" type="text/css" href="css/style.css"></head><body><h1>ngMessage Beta.v.1</h1><pre><code>1.powerful message! you can use it like q/async/promise!
+2.message for angular, different with $scope.$emit/$broadcast
+3.use single service(like message center) to register and send.
+3.currently support promise and mulit message.
+4.more demo can see app.js and index.html
+</code></pre><h2>Download</h2><p>Check out [<a href="https://github.com/microlv/ngMessage.git">https://github.com/microlv/ngMessage.git</a>]</p>
+<p>Wiki: <a href="http://microlv.github.io/ngMessage">http://microlv.github.io/ngMessage</a> (working it)</p>
+<h2>Features</h2><pre><code>message center base on angularjs.
+1.use the message to inform other controller
+2.support service and factory(these don&#39;t contain $rootScope and $scope)
+3.support promise and then
+</code></pre><h2>Support</h2><p>Currently only test in Chrome, require angularjs</p>
+<h2>Installation &amp; usage</h2><p>In browsers:</p>
+<pre><code class="language-html">    &lt;script src=&quot;ngMessage.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>Bower install<a href="http://bower.io/"><code>bower</code></a>:</p>
+<pre><code>    bower install ng-message -S
+</code></pre><p>Using:</p>
+<p>1.Base use(via javascript code)</p>
+<pre><code class="language-js">    1.first inject ngMessage
+    var app = angular.module(&#39;app&#39;, [&#39;ngMessage&#39;]);
+
+    app.controller(&#39;controller1&#39;, [&#39;ngMessage&#39;, &#39;$scope&#39;, function (ngMsg, $scope) {
+
+        2.second register the message, message name is single.
+        ngMsg.register(&#39;demo.1&#39;, function (k) {
+            console.log(&#39;demo.1 response&#39;);
+        });
+
+        ngMsg.on(&#39;demo.2&#39;, function (k) {
+            console.log(&#39;demo.2 response&#39;);
+        });
+    }]);
+
+    app.controller(&#39;controller2&#39;, [&#39;ngMessage&#39;, &#39;$scope&#39;, function (ngMsg, $scope) {
+        $scope.click = function () {
+            3.fire the message
+            ngMsg.trigger(&#39;demo.1&#39;, [{a: 1}, {a: 2}]);
+        };
+
+        $scope.remove = function () {
+            ngMsg.remove(&#39;demo.1&#39;);
+            $scope.click();
+        };
+
+        //console.log(ngMsg.list());
+    }]);
+</code></pre>
+<p>2.Via element
+must use ng-message attr and msg-name for register a unique message</p>
+<pre><code class="language-js">    &lt;a href=&quot;&quot; data-ng-message data-msg-name=&quot;demoFactoryOnMessage&quot;&gt;fire factory message&lt;/a&gt;
+
+    //use controller to init function
+    app.controller(&#39;controller3&#39;, [&#39;demoFactory&#39;, function (demoFactory) {
+        demoFactory.onMessage();
+    }]);
+</code></pre>
+<p>in javascript code, you can use it like q/async/promise, and more powerful then the base angular $q</p>
+<pre><code class="language-js">    ngMsg.on(&#39;demoFactoryOnMessage&#39;, function (d) {
+        console.log(&#39;factory task 1&#39;);
+        d.resolve();
+    }).then(function (d) {
+        console.log(&#39;factory task 2&#39;);
+        d.resolve();
+    }).series([
+        function (d) {
+            console.log(&#39;series task 3&#39;);
+            d.resolve();
+        }, function (d) {
+            console.log(&#39;series task 4&#39;);
+            d.resolve();
+        }
+    ], function (d) {
+        console.log(&#39;series task 5&#39;);
+    }).then(function () {
+        //why here don&#39;t work??
+        //because task 5 don&#39;t resolve the it!!!
+        console.log(&#39;I can\&#39;t execute&#39;);
+    });
+</code></pre>
+<p>3.Via directive:</p>
+<pre><code class="language-js">    &lt;div data-ng-message data-msg-name=&quot;directive.1&quot; style=&quot;background-color: #999&quot;&gt;
+        directive 1 click test
+    &lt;/div&gt;
+
+    &lt;div data-ng-message data-msg-name=&quot;directive.2&quot; data-msg-type=&quot;dblclick&quot; style=&quot;background-color: #999&quot;&gt;
+        directive 2 dblclick test
+    &lt;/div&gt;
+
+    ngMsg.on(&#39;directive.1&#39;, function (k) {
+        console.log(&#39;directive.1 response&#39;);
+    });
+    ngMsg.on(&#39;directive.2&#39;, function (k) {
+        console.log(&#39;directive.2 response&#39;);
+    });
+</code></pre>
+<h2>Open Api</h2><p>1.register a message</p>
+<pre><code class="language-js">    Message.register;
+    Message.on
+    Message.bind
+    Message.addLister
+</code></pre>
+<p>2.remove a message</p>
+<pre><code class="language-js">    Message.remove
+    Message.off
+    Message.unbind
+    Message.removeLister
+</code></pre>
+<p>3.trigger a message</p>
+<pre><code class="language-js">    Message.trigger
+    Message.fire
+    Message.emit
+</code></pre>
+<p>4.show all message</p>
+<pre><code class="language-js">    Message.list
+    Message.list(name)
+</code></pre>
+<p>5.promise</p>
+<pre><code class="language-js">    Message(&#39;&#39;).then
+    Message(&#39;&#39;,function(){}).then
+    Message(&#39;&#39;).series
+    Message(&#39;&#39;).parallel
+
+    Message(&#39;&#39;).then(function(){})
+               .series([],function(){})
+               .parallel([],function(){})
+               .then(function(){})
+</code></pre>
+<h2>Author</h2><p>Andy.lv@live.com;
+Any problem contact with me.</p>
+<h2>Contributors</h2><!-- bower:js--><script src="lib/jquery/dist/jquery.js"></script><script src="lib/angular/angular.js"></script><script src="lib/ngMessage/ngMessage.js"></script><script src="lib/angular-ui-router/release/angular-ui-router.js"></script><script src="lib/ngstorage/ngStorage.js"></script><script src="lib/angular-cache/dist/angular-cache.js"></script><script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script><script src="lib/angular-auth-interceptor/authHandler.js"></script><script src="lib/angular-animate/angular-animate.js"></script><script src="lib/angular-aria/angular-aria.js"></script><script src="lib/angular-material/angular-material.js"></script><script src="lib/angular-material-icons/angular-material-icons.min.js"></script><script src="lib/ng-file-upload/ng-file-upload.js"></script><!-- endbower--><script src="js/current-upload/current-upload.service.js"></script><script src="js/render/render.directive.js"></script><script src="js/upload/upload.directive.js"></script><script src="js/index.directive.js"></script><script src="js/app.routes.js"></script><script src="js/app.js"></script></body></html>

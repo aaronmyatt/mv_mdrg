@@ -1,0 +1,409 @@
+<!DOCTYPE html><html lang="" ng-app="app" class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"><title></title><link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700" rel="stylesheet" type="text/css"><!-- bower:css--><link rel="stylesheet" href="lib/animate.css/animate.css"><link rel="stylesheet" href="lib/angular-material/angular-material.css"><link rel="stylesheet" href="lib/angular-material-icons/angular-material-icons.css"><!-- endbower--><link rel="stylesheet" type="text/css" href="css/style.css"></head><body><h2>angular-cache <a href="https://www.npmjs.org/package/angular-cache"><img src="https://img.shields.io/bower/v/angular-cache.svg?style=flat-square" alt="bower version"></a> <a href="https://www.npmjs.org/package/angular-cache"><img src="https://img.shields.io/npm/v/angular-cache.svg?style=flat-square" alt="npm version"></a> <a href="https://circleci.com/gh/jmdobry/angular-cache/tree/master"><img src="https://img.shields.io/circleci/project/jmdobry/angular-cache/master.svg?style=flat-square" alt="Circle CI"></a> <a href="https://www.npmjs.org/package/angular-cache"><img src="https://img.shields.io/npm/dm/angular-cache.svg?style=flat-square" alt="npm downloads"></a> <a href="https://github.com/jmdobry/angular-cache/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a></h2><p>A very useful replacement for Angular&#39;s $cacheFactory.</p>
+<p><strong>versions of angular-cache below 4.0.0 have been deprecated, see the <a href="https://github.com/jmdobry/angular-cache/blob/master/CHANGELOG.md">breaking changes</a> in 4.0.0</strong></p>
+<p><strong>Latest Release:</strong> <a href="https://github.com/jmdobry/angular-cache/releases"><img src="https://img.shields.io/github/release/jmdobry/angular-cache.svg?style=flat-square" alt="Latest Release"></a></p>
+<p><strong>Status:</strong></p>
+<p><a href="https://gemnasium.com/jmdobry/angular-cache"><img src="https://img.shields.io/gemnasium/jmdobry/angular-cache.svg?style=flat-square" alt="Dependency Status"></a> <a href="https://coveralls.io/r/jmdobry/angular-cache?branch=master"><img src="https://img.shields.io/coveralls/jmdobry/angular-cache/master.svg?style=flat-square" alt="Coverage Status"></a> <a href="https://www.codacy.com/public/jasondobry/angular-cache/dashboard"><img src="https://img.shields.io/codacy/5e27e21d0c4c4d4cb203d589384aa93a.svg?style=flat-square" alt="Codacity"></a></p>
+<p><strong>Supported Browsers:</strong></p>
+<p><a href="https://github.com/jmdobry/angular-cache"><img src="https://img.shields.io/badge/Browser-Chrome%2CFirefox%2CSafari%2COpera%2CIE%209%2B%2CiOS%20Safari%207.1%2B%2CAndroid%20Browser%202.3%2B-green.svg?style=flat-square" alt="browsers"></a></p>
+<h3>Table of Contents</h3><ul>
+<li><a href="#quick-start">Quick Start</a></li>
+<li><a href="#the-basics">The Basics</a></li>
+<li><a href="#working-with-a-cache">Working with a cache</a></li>
+<li><a href="#configuration-options">Configuration Options</a></li>
+<li><a href="#using-angular-cache-with-http">Using angular-cache with $http</a></li>
+<li><a href="#using-angular-cache-with-localstorage">Using angular-cache with localStorage</a></li>
+<li><a href="#api-reference">API Reference</a></li>
+</ul>
+<h3>Quick Start</h3><p><code>bower install --save angular-cache</code> or <code>npm install --save angular-cache</code>.</p>
+<pre><code class="language-js">angular.module(&#39;myApp&#39;, [&#39;angular-cache&#39;])
+  .config(function (CacheFactoryProvider) {
+    angular.extend(CacheFactoryProvider.defaults, { maxAge: 15 * 60 * 1000 });
+  })
+  .service(&#39;BookService&#39;, function (CacheFactory) {
+    if (!CacheFactory.get(&#39;bookCache&#39;)) {
+      // or CacheFactory(&#39;bookCache&#39;, { ... });
+      CacheFactory.createCache(&#39;bookCache&#39;, {
+        deleteOnExpire: &#39;aggressive&#39;,
+        recycleFreq: 60000
+      });
+    }
+
+    var bookCache = CacheFactory.get(&#39;bookCache&#39;);
+
+    return {
+      findBookById: function (id) {
+        return $http.get(&#39;/api/books/&#39; + id, { cache: bookCache });
+      }
+    };
+  });
+</code></pre>
+<h3>The Basics</h3><p>First, inject <code>CacheFactory</code> then create a cache. Let&#39;s go:</p>
+<pre><code class="language-js">app.service(&#39;myService&#39;, function (CacheFactory) {
+  var profileCache;
+
+  // Check to make sure the cache doesn&#39;t already exist
+  if (!CacheFactory.get(&#39;profileCache&#39;)) {
+    profileCache = CacheFactory(&#39;profileCache&#39;);
+  }
+});
+</code></pre>
+<p>Let&#39;s add some items to the cache:</p>
+<pre><code class="language-js">profileCache.put(&#39;/profiles/34&#39;, {
+    name: &#39;John&#39;,
+    skills: [&#39;programming&#39;, &#39;piano&#39;]
+});
+
+profileCache.put(&#39;/profiles/22&#39;, {
+    name: &#39;Sally&#39;,
+    skills: [&#39;marketing&#39;, &#39;climbing&#39;, &#39;painting&#39;]
+});
+</code></pre>
+<p>Right now, these items will stay in the cache until a page refresh.</p>
+<p>Let&#39;s have items which are added to <code>profileCache</code> expire after an hour:</p>
+<pre><code class="language-js">profileCache = CacheFactory(&#39;profileCache&#39;, {
+  maxAge: 60 * 60 * 1000 // 1 hour
+});
+</code></pre>
+<p>Perfect. Say we also want the items removed from the cache when they expire:</p>
+<pre><code class="language-js">profileCache = CacheFactory(&#39;profileCache&#39;, {
+  maxAge: 60 * 60 * 1000 // 1 hour,
+  deleteOnExpire: &#39;aggressive&#39;
+});
+</code></pre>
+<p>Let&#39;s say that when the items do expire, we want to refresh them with new values:</p>
+<pre><code class="language-js">profileCache = CacheFactory(&#39;profileCache&#39;, {
+  maxAge: 60 * 60 * 1000 // 1 hour,
+  deleteOnExpire: &#39;aggressive&#39;,
+  onExpire: function (key, value) {
+    $http.get(key).success(function (data) {
+      profileCache.put(key, data);
+    });
+  }
+});
+</code></pre>
+<p>Or say we want all of our caches to use that configuration as their default:</p>
+<pre><code class="language-js">angular.module(&#39;app&#39;, [&#39;angular-cache&#39;]).config(function (CacheFactoryProvider) {
+  angular.extend(CacheFactoryProvider.defaults, {
+    maxAge: 3600000,
+    deleteOnExpire: &#39;aggressive&#39;,
+    onExpire: function (key, value) {
+      var _this = this; // &quot;this&quot; is the cache in which the item expired
+      angular.injector([&#39;ng&#39;]).get(&#39;$http&#39;).get(key).success(function (data) {
+        _this.put(key, data);
+      });
+    }
+  });
+});
+</code></pre>
+<h3>Working with a cache</h3><p>We can retrieve items from a cache like so:</p>
+<pre><code class="language-js">var profile = profileCache.get(&#39;/profiles/34&#39;);
+
+profile.name; // &#39;John&#39;
+</code></pre>
+<p>And get information about items in the cache:</p>
+<pre><code class="language-js">var info = profileCache.info(&#39;/profiles/34&#39;);
+
+info.isExpired; // false
+// etc.
+</code></pre>
+<p>and information about the cache itself:</p>
+<pre><code>var info = profileCache.info();
+
+info.size; // 2
+info.maxAge; // 3600000
+info.deleteOnExpire; // &#39;aggressive&#39;
+// etc.
+</code></pre><p>Items are easily removed, and we can destroy our cache when we&#39;re done with it:</p>
+<pre><code class="language-js">profileCache.remove(&#39;/profiles/34&#39;);
+
+profileCache.get(&#39;/profiles/34&#39;); // undefined
+
+profileCache.destroy();
+
+CacheFactory.get(&#39;profileCache&#39;); // undefined
+</code></pre>
+<h3>Configuration Options</h3><p>These options apply to:</p>
+<ul>
+<li><code>CacheFactory(cacheId[, options)</code></li>
+<li><code>CacheFactory.createCache(cacheId[, options])</code></li>
+<li><code>Cache#setOptions(options[, strict])</code></li>
+<li><code>Cache#setMaxAge(maxAge)</code>, <code>Cache#setOnExpire(onExpire)</code>, etc.</li>
+</ul>
+<h5><code>cacheFlushInterval</code></h5><p>If set, remove all items from a cache on an interval after the given number of milliseconds. Default: <code>null</code>.</p>
+<h5><code>capacity</code></h5><p>Maximum number of items a cache can hold. Adding more items than the capacity will cause the cache to operate like an LRU cache, removing the least recently used items to stay under capacity. Default: <code>Number.MAX_VALUE</code>.</p>
+<h5><code>deleteOnExpire</code></h5><p>Determines the behavior of a cache when an item expires. Default: <code>none</code>.</p>
+<p>Possible values:</p>
+<ul>
+<li><code>none</code> - Cache will do nothing when an item expires.</li>
+<li><code>passive</code> - Cache will do nothing when an item expires. Expired items will remain in the cache until requested, at which point they are removed, and <code>undefined</code> is returned.</li>
+<li><code>aggressive</code> - Cache will remove expired items as soon as they are discovered.</li>
+</ul>
+<h5><code>disabled</code></h5><p>Determines whether a cache is disabled. Default: <code>false</code>.</p>
+<h5><code>onExpire</code></h5><p>A callback function to be executed whenever an expired item is removed from a cache when the cache is in <code>passive</code> or <code>aggressive</code> mode. Will be passed the <code>key</code> and <code>value</code> of the expired item.</p>
+<p>Will be passed a third <code>done</code> argument if the cache is in <code>passive</code> mode. This allows you to synchronously access the <code>key</code> and <code>value</code> of the expired item when you make the <code>Cache#get(key[, options])</code> call that is the reason the expired item is being removed in the first place. Default: <code>null</code>.</p>
+<h5><code>maxAge</code></h5><p>The number of milliseconds until a newly inserted item expires. Default: <code>Number.MAX_VALUE</code>.</p>
+<h5><code>recycleFreq</code></h5><p>Determines how often a cache will scan for expired items when in <code>aggressive</code> mode. Default: <code>1000</code> (milliseconds).</p>
+<h5><code>storageImpl</code></h5><p>Provide a custom storage medium, e.g. a polyfill for <code>localStorage</code>. Default: <code>null</code>.</p>
+<p>Must implement:</p>
+<ul>
+<li><code>setItem</code> - Same API as <code>localStorage.setItem(key, value)</code></li>
+<li><code>getItem</code> - Same API as <code>localStorage.getItem(key)</code></li>
+<li><code>removeItem</code> - Same API as <code>localStorage.removeItem(key)</code></li>
+</ul>
+<h5><code>storageMode</code></h5><p>Determines the storage medium used by a cache. Default: <code>memory</code>.</p>
+<p>Possible values:</p>
+<ul>
+<li><code>memory</code> - Cache will hold data in memory. Data is cleared when the page is refreshed.</li>
+<li><code>localStorage</code> - Cache will hold data in <code>localStorage</code> if available. Data is <em>not</em> cleared when the page is refreshed.</li>
+<li><code>sessionStorage</code> - Cache will hold data in <code>sessionStorage</code> if available. Data is <em>not</em> cleared when the page is refreshed.</li>
+</ul>
+<h5><code>storagePrefix</code></h5><p>Determines the namespace of a cache when <code>storageMode</code> is set to <code>localStorage</code> or <code>sessionStorage</code>. Make it a shorter string to save space. Default: <code>angular-cache.caches.</code>.</p>
+<h5><code>storeOnReject</code></h5><p>If inserting a promise into a cache, also insert the rejection value if the promise rejects. Default: <code>false</code>.</p>
+<h5>storeOnResolve</h5><p>If inserting a promise into a cache, also insert the resolved value if the promise resolves. Default: <code>false</code>.</p>
+<h3>Using angular-cache with $http</h3><p><strong>Note:</strong> The downside of letting <code>$http</code> handle caching for you is that it caches the responses (in string form) to your requests–not the JavaScript Object parsed from the response body. This means you can&#39;t interact with the data in the cache used by <code>$http</code>. See below for how to handle the caching yourself, which gives you more control and the ability to interact with the cache (use it as a data store).</p>
+<p>Configure <code>$http</code> to use a cache created by <code>CacheFactory</code> by default:</p>
+<pre><code class="language-js">app.run(function ($http, CacheFactory) {
+  $http.defaults.cache = CacheFactory(&#39;defaultCache&#39;, {
+    maxAge: 15 * 60 * 1000, // Items added to this cache expire after 15 minutes
+    cacheFlushInterval: 60 * 60 * 1000, // This cache will clear itself every hour
+    deleteOnExpire: &#39;aggressive&#39; // Items will be deleted from this cache when they expire
+  });
+});
+</code></pre>
+<pre><code class="language-js">app.service(&#39;MyService&#39;, function ($http, $q) {
+  return {
+    getDataById: function (id) {
+      var deferred = $q.defer();
+      var start = new Date().getTime();
+
+      $http.get(&#39;api/data/&#39; + id, {
+        cache: true
+      }).success(function (data) {
+        console.log(&#39;time taken for request: &#39; + (new Date().getTime() - start) + &#39;ms&#39;);
+        deferred.resolve(data);
+      });
+      return deferred.promise;
+    }
+  };
+});
+</code></pre>
+<pre><code class="language-js">app.controller(&#39;myCtrl&#39;, function (MyService) {
+  MyService.getDataById(1).then(function (data) {
+    // e.g. &quot;time taken for request: 2375ms&quot;
+    // Data returned by this next call is already cached.
+    return MyService.getDataById(1).then(function (data) {
+      // e.g. &quot;time taken for request: 1ms&quot;
+    });
+  });
+});
+</code></pre>
+<p>Tell $http to use a cache created by CacheFactory for a specific request:</p>
+<pre><code class="language-js">app.service(&#39;MyService&#39;, function ($q, $http, CacheFactory) {
+
+  CacheFactory(&#39;dataCache&#39;, {
+    maxAge: 15 * 60 * 1000, // Items added to this cache expire after 15 minutes
+    cacheFlushInterval: 60 * 60 * 1000, // This cache will clear itself every hour
+    deleteOnExpire: &#39;aggressive&#39; // Items will be deleted from this cache when they expire
+  });
+
+  return {
+    getDataById: function (id) {
+      var deferred = $q.defer();
+      var start = new Date().getTime();
+
+      $http.get(&#39;api/data/&#39; + id, {
+        cache: CacheFactory.get(&#39;dataCache&#39;)
+      }).success(function (data) {
+        console.log(&#39;time taken for request: &#39; + (new Date().getTime() - start) + &#39;ms&#39;);
+        deferred.resolve(data);
+      });
+      return deferred.promise;
+    }
+  };
+});
+</code></pre>
+<pre><code class="language-js">app.controller(&#39;myCtrl&#39;, function (MyService) {
+  MyService.getDataById(1).then(function (data) {
+    // e.g. &quot;time taken for request: 2375ms&quot;
+    // Data returned by this next call is already cached.
+    return MyService.getDataById(1).then(function (data) {
+      // e.g. &quot;time taken for request: 1ms&quot;
+    });
+  });
+});
+</code></pre>
+<p>Do your own caching while using the $http service:</p>
+<pre><code class="language-js">app.service(&#39;MyService&#39;, function ($q, $http, CacheFactory) {
+
+  CacheFactory(&#39;dataCache&#39;, {
+    maxAge: 15 * 60 * 1000, // Items added to this cache expire after 15 minutes
+    cacheFlushInterval: 60 * 60 * 1000, // This cache will clear itself every hour
+    deleteOnExpire: &#39;aggressive&#39; // Items will be deleted from this cache when they expire
+  });
+
+  return {
+    getDataById: function (id) {
+      var deferred = $q.defer();
+      var start = new Date().getTime();
+      var dataCache = CacheFactory.get(&#39;dataCache&#39;);
+
+      // Now that control of inserting/removing from the cache is in our hands,
+      // we can interact with the data in &quot;dataCache&quot; outside of this context,
+      // e.g. Modify the data after it has been returned from the server and
+      // save those modifications to the cache.
+      if (dataCache.get(id)) {
+        deferred.resolve(dataCache.get(id));
+      } else {
+        $http.get(&#39;api/data/&#39; + id).success(function (data) {
+          console.log(&#39;time taken for request: &#39; + (new Date().getTime() - start) + &#39;ms&#39;);
+          dataCache.put(id, data);
+          deferred.resolve(data);
+          });
+      }
+      return deferred.promise;
+    }
+  };
+});
+</code></pre>
+<pre><code class="language-js">app.controller(&#39;myCtrl&#39;, function (MyService) {
+  MyService.getDataById(1).then(function (data) {
+    // e.g. &quot;time taken for request: 2375ms&quot;
+    // Data returned by this next call is already cached.
+    return MyService.getDataById(1).then(function (data) {
+      // e.g. &quot;time taken for request: 1ms&quot;
+    });
+  });
+});
+</code></pre>
+<h3>Using angular-cache with localStorage</h3><pre><code class="language-js">app.service(&#39;myService&#39;, function (CacheFactory) {
+
+  // This cache will sync itself with localStorage if it exists, otherwise it won&#39;t. Every time the
+  // browser loads this app, this cache will attempt to initialize itself with any data it had
+  // already saved to localStorage (or sessionStorage if you used that).
+  var myAwesomeCache = CacheFactory(&#39;myAwesomeCache&#39;, {
+    maxAge: 15 * 60 * 1000, // Items added to this cache expire after 15 minutes.
+    cacheFlushInterval: 60 * 60 * 1000, // This cache will clear itself every hour.
+    deleteOnExpire: &#39;aggressive&#39;, // Items will be deleted from this cache right when they expire.
+    storageMode: &#39;localStorage&#39; // This cache will use `localStorage`.
+  });
+});
+</code></pre>
+<p>Using angular-cache in browsers that DON&#39;T support localStorage:</p>
+<p>Option 1 - Do nothing (the cache will just store data in memory)</p>
+<p>Option 2 - Create/use a polyfill that provides the global <code>localStorage</code> and <code>sessionStorage</code> objects. angular-cache will attempt to use these if it finds them.</p>
+<p>Option 3 - Tell angular-cache exactly which polyfill to use (also useful if you just want to use your own implementation/wrapper for localStorage):</p>
+<pre><code class="language-js">app.service(&#39;myService&#39;, function (CacheFactory) {
+
+  var localStoragePolyfill = {
+    getItem: function (key) { ... },
+    setItem: function (key, value) { ... },
+    removeItem: function (key) { ... }
+  };
+
+  // Always use the polyfill
+  var myAwesomeCache = CacheFactory(&#39;myAwesomeCache&#39;, {
+    maxAge: 15 * 60 * 1000, // Items added to this cache expire after 15 minutes.
+    cacheFlushInterval: 60 * 60 * 1000, // This cache will clear itself every hour.
+    deleteOnExpire: &#39;aggressive&#39;, // Items will be deleted from this cache right when they expire.
+    storageMode: &#39;localStorage&#39;, // This cache will use `localStorage`.
+    storageImpl: localStoragePolyfill // angular-cache will use this polyfill instead of looking for localStorage
+  });
+
+  // Conditionally use the polyfill
+  var options = {
+    maxAge: 15 * 60 * 1000, // Items added to this cache expire after 15 minutes.
+    cacheFlushInterval: 60 * 60 * 1000, // This cache will clear itself every hour.
+    deleteOnExpire: &#39;aggressive&#39;, // Items will be deleted from this cache right when they expire.
+    storageMode: &#39;localStorage&#39; // This cache will use `localStorage`.
+  };
+  if (!window.localStorage) {
+    options.storageImpl = localStoragePolyfill;
+  }
+  var myAwesomeCache = CacheFactory(&#39;myAwesomeCache&#39;, options);
+});
+</code></pre>
+<p>Documentation on the interface that must be implemented by any storageImpl polyfill used by angular-cache can be found on the W3C Recommendation page for webstorage. The interface itself looks like:</p>
+<pre><code>interface Storage {
+  readonly attribute unsigned long length;
+  DOMString? key(unsigned long index);
+  getter DOMString getItem(DOMString key);
+  setter creator void setItem(DOMString key, DOMString value);
+  deleter void removeItem(DOMString key);
+  void clear();
+};
+</code></pre><p>angular-cache cares only about these three methods:</p>
+<ul>
+<li><code>setItem</code></li>
+<li><code>getItem</code></li>
+<li><code>removeItem</code></li>
+</ul>
+<p>One developer suggested using store.js–a wrapper and polyfill for localStorage. However, store.js has its own API that doesn&#39;t match that of the webstorage spec, so if you want to use store.js or any other 3rd-party polyfill then you&#39;ll need to create a wrapper for it if it doesn&#39;t have the same API as localStorage . For example:</p>
+<pre><code class="language-js">var storeJsToStandard {
+  getItem: store.get,
+  setItem: store.set,
+  removeItem: store.remove
+};
+
+CacheFactory(&#39;myNewCache&#39;, {
+  storageMode: &#39;localStorage&#39;,
+  storageImpl: storeJsToStandard
+});
+</code></pre>
+<h3>API Reference</h3><h5><code>CacheFactory(cacheId[, options])</code> &amp; <code>CacheFactory.createCache(cacheId[, options])</code></h5><p>Create a cache. Cache must not already exist. <code>cacheId</code> must be a string. <code>options</code> is an optional argument and must be an object. Any options you pass here will override any default options.</p>
+<pre><code class="language-js">var cache = CacheFactory(&#39;cache&#39;);
+var cache2 = CacheFactory.createCache(&#39;cache2&#39;);
+var cache3 = CacheFactory(&#39;cache&#39;, { maxAge: 900000 });
+var cache4 = CacheFactory(&#39;cache&#39;); // Error &quot;cache already exists!&quot;
+</code></pre>
+<h5><code>CacheFactory.get(cacheId)</code></h5><p>Return the cache with the given <code>cacheId</code>.</p>
+<h5><code>CacheFactory.info()</code></h5><p>Return an object of key-value pairs, the keys being cache ids and the values being the result of <code>.info()</code> being called on each cache.</p>
+<h5><code>CacheFactory.keySet()</code></h5><p>Return the ids of all registered caches as an object.</p>
+<h5><code>CacheFactory.keys()</code></h5><p>Return the ids of all registered caches as an array.</p>
+<h5><code>CacheFactory.destroy(cacheId)</code></h5><p>Destroy the cache with the given <code>cacheId</code>.</p>
+<h5><code>CacheFactory.destroyAll()</code></h5><p>Destroy all registered caches.</p>
+<h5><code>CacheFactory.clearAll()</code></h5><p>Remove all data from all registered caches.</p>
+<h5><code>CacheFactory.enableAll()</code></h5><p>Enable all registered caches.</p>
+<h5><code>CacheFactory.disableAll()</code></h5><p>Disable all registered caches.</p>
+<h5><code>CacheFactory.touchAll()</code></h5><p>Call <code>.touch()</code> on all registered caches.</p>
+<h5><code>CacheFactory.removeExpiredFromAll()</code></h5><p>Call <code>.removeExpired()</code> on all registered caches. Returns a hash of any expired items, keyed by cache id.</p>
+<h5><code>Cache#get(key[, options])</code></h5><p>Return the item with the given <code>key</code>. <code>options</code>, if provided, must be an object.</p>
+<p>If the cache is in <code>passive</code> mode, then <code>options.onExpire</code> can be a function that will be called with the <code>key</code> and <code>value</code> of the requested item if the requested item is expired, with the <code>get</code> call itself returning undefined.</p>
+<h5><code>Cache#put(key, value[, options])</code></h5><p>Insert the item with the given <code>key</code> and <code>value</code> into the cache. <code>options</code>, if provided, must be an object.</p>
+<p>If inserting a promise, <code>options.storeOnReject</code> determines whether to insert the rejection value if the promise rejects (overriding the default <code>storeOnReject</code> setting for the cache).
+If inserting a promise, <code>options.storeOnResolve</code> determines whether to insert the resolved value if the promise resolves (overriding the default <code>storeOnResolve</code> setting for the cache).</p>
+<h5><code>Cache.remove(key)</code></h5><p>Remove and return the item with the given <code>key</code>, if it is in the cache.</p>
+<h5><code>Cache.removeAll()</code></h5><p>Remove all items in the cache.</p>
+<h5><code>Cache.removeExpired()</code></h5><p>Remove and return all expired items in the cache.</p>
+<h5><code>Cache.destroy()</code></h5><p>Completely destroy this cache and its data.</p>
+<h5><code>Cache#info([key])</code></h5><p><code>Cache#info()</code> returns an object containing information about the cache.</p>
+<p><code>Cache#info(key)</code> returns an object containing information about the item with the given <code>key</code>, if the item is in the cache.</p>
+<h5><code>Cache#keySet()</code></h5><p>Return the keys of all items in the cache as an object.</p>
+<h5><code>Cache#keys()</code></h5><p>Return the keys of all items in the cache as an array.</p>
+<h5><code>Cache#enable()</code></h5><p>Enable the cache.</p>
+<h5><code>Cache#disable()</code></h5><p>Disable the cache.</p>
+<h5><code>Cache#touch([key])</code></h5><p><code>Cache#touch()</code> will &quot;touch&quot; all items in the cache.
+<code>Cache#touch(key)</code> will &quot;touch&quot; the item with the given <code>key</code>.</p>
+<h5><code>Cache#setCacheFlushInterval(cacheFlushInterval)</code></h5><p>Set the <code>cacheFlushInterval</code> for the cache.</p>
+<h5><code>Cache#setCapacity(capacity)</code></h5><p>Set the <code>capacity</code> for the cache. Setting this lower than the current item count will result in those items being removed.</p>
+<h5><code>Cache#setDeleteOnExpire(deleteOnExpire)</code></h5><p>Set the <code>deleteOnExpire</code> for the cache.</p>
+<h5><code>Cache#setMaxAge(maxAge)</code></h5><p>Set the <code>maxAge</code> for the cache.</p>
+<h5><code>Cache#setOnExpire(onExpire)</code></h5><p>Set the <code>onExpire</code> for the cache.</p>
+<h5><code>Cache#setRecycleFreq(recycleFreq)</code></h5><p>Set the <code>recycleFreq</code> for the cache.</p>
+<h5><code>Cache#setStorageMode(storageMode)</code></h5><p>Set the <code>storageMode</code> for the cache. This will move data from the current storage medium to the new one.</p>
+<h5><code>Cache#setOptions(options[, strict])</code></h5><p>Set multiple options for the cache at a time. Setting <code>strict</code> to <code>true</code> will reset options for the cache that are not specifically set in the <code>options</code> hash to <code>CacheFactoryProvider.defaults</code>.</p>
+<h3>License</h3><p><a href="https://github.com/jmdobry/angular-cache/blob/master/LICENSE">MIT License</a></p>
+<p>Copyright (C) 2013-2015 Jason Dobry</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the &quot;Software&quot;), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p><!-- bower:js--><script src="lib/jquery/dist/jquery.js"></script><script src="lib/angular/angular.js"></script><script src="lib/ngMessage/ngMessage.js"></script><script src="lib/angular-ui-router/release/angular-ui-router.js"></script><script src="lib/ngstorage/ngStorage.js"></script><script src="lib/angular-cache/dist/angular-cache.js"></script><script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script><script src="lib/angular-auth-interceptor/authHandler.js"></script><script src="lib/angular-animate/angular-animate.js"></script><script src="lib/angular-aria/angular-aria.js"></script><script src="lib/angular-material/angular-material.js"></script><script src="lib/angular-material-icons/angular-material-icons.min.js"></script><script src="lib/ng-file-upload/ng-file-upload.js"></script><!-- endbower--><script src="js/current-upload/current-upload.service.js"></script><script src="js/render/render.directive.js"></script><script src="js/upload/upload.directive.js"></script><script src="js/index.directive.js"></script><script src="js/app.routes.js"></script><script src="js/app.js"></script></body></html>

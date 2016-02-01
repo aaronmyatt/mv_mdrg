@@ -1,0 +1,262 @@
+<!DOCTYPE html><html lang="" ng-app="app" class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"><title></title><link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700" rel="stylesheet" type="text/css"><!-- bower:css--><link rel="stylesheet" href="lib/animate.css/animate.css"><link rel="stylesheet" href="lib/angular-material/angular-material.css"><link rel="stylesheet" href="lib/angular-material-icons/angular-material-icons.css"><!-- endbower--><link rel="stylesheet" type="text/css" href="css/style.css"></head><body><h5>4.4.3 30 December 2015</h5><ul>
+<li>#179 - capacity does not work on often reload</li>
+<li>#210 - Why does angular-cache ignore capacity configuration?</li>
+</ul>
+<h5>4.4.1 12 October 2015</h5><ul>
+<li>#203 - trouble: bundle with r.js not works</li>
+</ul>
+<h5>4.4.0 12 October 2015</h5><ul>
+<li>#200 - 4.3 storagePrefix is not backwards compatible</li>
+<li>#201 - webpack minification error</li>
+</ul>
+<h5>4.3.2 10 July 2015</h5><ul>
+<li>#191 - yabh issue with ie8</li>
+</ul>
+<h5>4.3.1 07 July 2015</h5><ul>
+<li>#190 - 4.3 breaks phantomJS tests</li>
+</ul>
+<h5>4.3.0 06 July 2015</h5><ul>
+<li>#189 - Extracted non-angular code.</li>
+</ul>
+<h5>4.2.2 01 July 2015</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>#165 - storageMode does not inherits from defaults</li>
+</ul>
+<h5>4.2.1 01 July 2015</h5><p>Upgraded dependencies
+Better CommonJS interop
+Added a number of build examples</p>
+<h5>4.2.0 27 April 2015</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>#174 - Cache not being fully emptied if using localStorage and multiple web pages</li>
+</ul>
+<h5>4.1.0 30 March 2015</h5><h6>Backwards compatible API changes</h6><ul>
+<li>#169 - Official support for ngResource</li>
+</ul>
+<h5>4.0.2 22 March 2015</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>#164 - onExpire is still called when cache is empty</li>
+</ul>
+<h5>4.0.1 20 March 2015</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>#163 - Configuring CacheOption storagePrefix results in &quot;true.{key}&quot;</li>
+</ul>
+<h5>4.0.0 15 March 2015</h5><h6>Breaking API changes</h6><ul>
+<li>Completely disassociated angular-cache from the deprecated angular-data (angular-data has been replaced by js-data + js-data-angular)</li>
+<li>Angular module renamed to <em>angular-cache</em></li>
+<li><em>DSCacheFactory</em> renamed to <em>CacheFactory</em></li>
+<li><em>DSBinaryHeap</em> renamed to <em>BinaryHeap</em></li>
+<li>Removed <code>DSCacheFactoryProvider.setCacheDefaults</code>. You now do <code>angular.extend(CacheFactoryProvider.defaults, { ... });</code></li>
+<li>No longer exposing a <code>DSCache</code> constructor function (as it no longer exists)</li>
+<li><code>storageMode</code> can now be set dynamically, which will remove all items from current storage and insert them into the new storage</li>
+</ul>
+<h6>Other</h6><ul>
+<li>Fixes #161</li>
+<li>Converted to ES6 and a webpack build with better umd support</li>
+<li>Now exporting the module name <em>angular-cache</em> (when you do <code>require(&#39;angular-cache&#39;)</code> you get <code>&quot;angular-cache&quot;</code>)</li>
+<li>Deprecating angular-cache &lt; 4.0.0</li>
+</ul>
+<h5>3.2.5 02 February 2015</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>#152 - Expired items sometimes only expire after double time.</li>
+<li>#153 - Missing angular dependency in bower.json</li>
+</ul>
+<h5>3.2.4 17 December 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>#149 - when removing an object from localStorage the key didn&#39;t get removed if the passed parameter is of number type.</li>
+</ul>
+<h5>3.2.3 13 December 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>#112 - $resource cache and 3.0.0-beta-x</li>
+<li>#122 - Error using DSCacheFactory with $http/ $resource and localStorage</li>
+<li>#148 - Illegal operation when using local-/sessionStorage</li>
+</ul>
+<h5>3.2.2 24 November 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>#147 - <code>storeOnResolve</code> and <code>storeOnReject</code> should default to <code>false</code></li>
+</ul>
+<h5>3.2.1 10 November 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>#142 - Use JSON.stringify instead of angular.toJson</li>
+</ul>
+<h5>3.2.0 07 November 2014</h5><h6>Backwards compatible API changes</h6><ul>
+<li>#135 - Closes #135. (Improved handling of promises.)</li>
+</ul>
+<h5>3.1.1 28 August 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>#124 - DSCache.info does not work if the storageMode is localStorage.</li>
+<li>#127 - requirejs conflict, require object overwritten</li>
+</ul>
+<h5>3.1.0 15 July 2014</h5><h6>Backwards compatible API changes</h6><ul>
+<li>#117 - call to DSCacheFactory(...) produces JSHint warning (Added DSCacheFactory.createCache method)</li>
+</ul>
+<h6>Backwards compatible bug fixes</h6><ul>
+<li>#118 - dist/angular-cache.js doesn&#39;t end with a semicolon (Upgraded dependencies)</li>
+<li>#120 - How come the non minified version has minified code? (Upgraded dependencies)</li>
+</ul>
+<h5>3.0.3 16 June 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>Angular 1.2.18 with $http/localStorage #116</li>
+</ul>
+<h5>3.0.2 15 June 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>$http w/ cache is trying to store a promise, which dies on JSON.stringify #115</li>
+</ul>
+<h5>3.0.1 14 June 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>Added polyfill for <code>$$minErr</code>.</li>
+</ul>
+<h5>3.0.0 14 June 2014</h5><p>3.0.0 Release</p>
+<h5>3.0.0-beta.4 22 April 2014</h5><h6>Backwards compatible API changes</h6><ul>
+<li>Add feature to &#39;touch&#39; elements in the cache #103</li>
+</ul>
+<h6>Backwards compatible bug fixes</h6><ul>
+<li><code>localstorage</code> and Safari Private Browsing #107</li>
+</ul>
+<h5>3.0.0-beta.3 03 March 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>Fixed duplicate keys when using localStorage #106</li>
+</ul>
+<h5>3.0.0-beta.2 25 February 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>Fixed missing reference to DSBinaryHeap #105</li>
+</ul>
+<h5>3.0.0-beta.1 24 February 2014</h5><h6>Breaking API changes</h6><ul>
+<li><code>maxAge</code> and <code>deleteOnExpire</code> are no longer overridable for individual items</li>
+<li>Renamed angular module to <code>angular-data.DSCacheFactory</code>. Angular-cache is now part of the <code>angular-data</code> namespace</li>
+<li>The <code>verifyIntegrity</code> option has been completely removed due to a cache being exclusively in-memory OR in web storage #96</li>
+<li>Supported values for the <code>storageMode</code> option are now: <code>&quot;memory&quot;</code>, <code>&quot;localStorage&quot;</code> or <code>&quot;sessionStorage&quot;</code> with the default being <code>&quot;memory&quot;</code></li>
+<li><code>DSCache#put(key, value)</code> no longer accepts a third <code>options</code> argument</li>
+<li><code>DSCache#removeExpired()</code> no longer accepts an <code>options</code> argument and thus no longer supports returning removed expired items as an array</li>
+<li><code>DSCache#remove(key)</code> no longer accepts an <code>options</code> argument</li>
+<li><code>DSCache#setOptions(options[, strict])</code> no longer accepts <code>storageMode</code> and <code>storageImpl</code> as part of the <code>options</code> argument</li>
+<li><code>storageMode</code> is no longer dynamically configurable</li>
+<li><code>storageImpl</code> is no longer dynamically configurable</li>
+</ul>
+<h6>Backwards compatible API changes</h6><ul>
+<li>Added <code>DSCache#enable()</code></li>
+<li>Added <code>DSCache#disable()</code></li>
+<li>Added <code>DSCache#setCapacity(capacity)</code></li>
+<li>Added <code>DSCache#setMaxAge(maxAge)</code></li>
+<li>Added <code>DSCache#setCacheFlushInterval(cacheFlushInterval)</code></li>
+<li>Added <code>DSCache#setRecycleFreq(recycleFreq)</code></li>
+<li>Added <code>DSCache#setDeleteOnExpire(deleteOnExpire)</code></li>
+<li>Added <code>DSCache#setOnExpire(onExpire)</code></li>
+<li>Added option <code>storagePrefix</code> for customizing the prefix used in <code>localStorage</code>, etc. #98</li>
+<li>Refactored to be in-memory OR webStorage, never both #96</li>
+</ul>
+<h6>Other</h6><ul>
+<li>I might have missed something...</li>
+</ul>
+<h5>2.3.3 - 24 February 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>*sigh Fixed #102 (regression from #100)</li>
+</ul>
+<h5>2.3.2 - 23 February 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>Fixed #100 (regression from #89)</li>
+</ul>
+<h5>2.3.1 - 19 February 2014</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>Fixed #89</li>
+</ul>
+<h5>2.3.0 - 09 January 2014</h5><ul>
+<li>Caches can now be disabled #82</li>
+<li>The <code>options</code> object (<code>$angularCacheFactory()</code>, <code>AngularCache#setOptions()</code>, and <code>$angularCacheFactoryProvider.setCacheDefaults()</code>) now accepts a <code>disabled</code> field, which can be set to <code>true</code> and defaults to <code>false</code>.</li>
+<li><code>$angularCacheFactory.enableAll()</code> will enable any disabled caches.</li>
+<li><code>$angularCacheFactory.disableAll()</code> will disable all caches.</li>
+<li>A disabled cache will operate as normal, except <code>AngularCache#get()</code> and <code>AngularCache#put()</code> will both immediately return <code>undefined</code> instead of performing their normal functions.</li>
+</ul>
+<h6>Backwards compatible API changes</h6><ul>
+<li><code>removeExpired()</code> now returns an object (or array) of the removed items.</li>
+</ul>
+<h6>Backwards compatible bug fixes</h6><ul>
+<li><code>removeExpired()</code> now removes <em>all</em> expired items.</li>
+</ul>
+<h5>2.2.0 - 15 December 2013</h5><h6>Backwards compatible API changes</h6><ul>
+<li><code>removeExpired()</code> now returns an object (or array) of the removed items.</li>
+</ul>
+<h6>Backwards compatible bug fixes</h6><ul>
+<li><code>removeExpired()</code> now removes <em>all</em> expired items.</li>
+</ul>
+<h5>2.1.1 - 20 November 2013</h5><h6>Backwards compatible bug fixes</h6><ul>
+<li>Allow number keys, but stringify them #76</li>
+<li>Fix &quot;Uncaught TypeError: Cannot read property &#39;maxAge&#39; of null&quot; #77 (thanks @evngeny-o)</li>
+</ul>
+<h5>2.1.0 - 03 November 2013</h5><h6>Backwards compatible API changes</h6><ul>
+<li>Modify .get(key, options) to accept multiple keys #71 (thanks @roryf)</li>
+</ul>
+<h6>Other</h6><ul>
+<li>Run tests against multiple versions of Angular.js #72</li>
+<li>Add banner to dist/angular-cache.min.js #68</li>
+</ul>
+<h5>2.0.0 - 30 October 2013</h5><ul>
+<li>Not all methods of AngularCache and $angularCacheFactory are in README #61</li>
+<li>Fix demo to work with 2.0.0-rc.1 #62</li>
+<li>Using Bower to install this package, the dist filenames change per version? #63</li>
+</ul>
+<h5>2.0.0-rc.1 - 14 October 2013</h5><h6>Breaking API changes</h6><ul>
+<li>Swapped <code>aggressiveDelete</code> option for <code>deleteOnExpire</code> option. #30, #47</li>
+<li>Changed <code>$angularCacheFactory.info()</code> to return an object similar to <code>AngularCache.info()</code> #45</li>
+<li>Namespaced angular-cache module under <code>jmdobry</code> so it is now &quot;jmdobry.angular-cache&quot;. #42</li>
+<li>Substituted <code>storageImpl</code> and <code>sessionStorageImpl</code> options for just <code>storageImpl</code> option.</li>
+</ul>
+<h6>Backwards compatible API changes</h6><ul>
+<li>Added <code>recycleFreq</code> to specify how frequently to check for expired items (no more $timeout). #28, #57</li>
+<li>Added ability to set global cache defaults in $angularCacheFactoryProvider. #55</li>
+</ul>
+<h6>Backwards compatible bug fixes</h6><ul>
+<li>cacheFlushInterval doesn&#39;t clear web storage when storageMode is used. #52</li>
+<li>AngularCache#info(key) should return &#39;undefined&#39; if the key isn&#39;t in the cache #53</li>
+<li>Fixed timespan issues in README.md. #59</li>
+</ul>
+<h6>Other</h6><ul>
+<li>Refactored angular-cache <code>setOptions()</code> internals to be less convoluted and to have better validation. #46</li>
+<li>Re-wrote documentation to be clearer and more organized. #56</li>
+<li>Fixed documentation where time spans were incorrectly labeled. #59</li>
+</ul>
+<h5>1.2.0 - 20 September 2013</h5><h6>Backwards compatible API changes</h6><ul>
+<li>Added AngularCache#info(key) #43</li>
+</ul>
+<h6>Backwards compatible bug fixes</h6><ul>
+<li>Fixed #39, #44, #49, #50</li>
+</ul>
+<h5>1.1.0 - 03 September 2013</h5><h6>Backwards compatible API changes</h6><ul>
+<li>Added <code>onExpire</code> callback hook #27</li>
+<li>Added <code>$angularCacheFactory.removeAll()</code> and <code>$angularCacheFactory.clearAll()</code> convenience methods #37, #38</li>
+</ul>
+<h6>Backwards compatible bug fixes</h6><ul>
+<li>Fixed #36</li>
+</ul>
+<h5>1.0.0 - 25 August 2013</h5><ul>
+<li>Closed #31 (Improved documentation)</li>
+<li>Closed #32</li>
+</ul>
+<h5>1.0.0-rc.1 - 21 August 2013</h5><ul>
+<li>Added localStorage feature #26, #29</li>
+</ul>
+<h5>0.9.1 - 03 August 2013</h5><ul>
+<li>Fixed #25</li>
+</ul>
+<h5>0.9.0 - 03 August 2013</h5><ul>
+<li>Added a changelog #13</li>
+<li>Added documentation for installing with bower</li>
+<li>Added ability to set option <code>aggressiveDelete</code> when creating cache and when adding items</li>
+<li>Cleaned up README.md</li>
+<li>Switched the demo to use Bootstrap 3</li>
+</ul>
+<h5>0.8.2 - 09 July 2013</h5><ul>
+<li>Added CONTRIBUTING.md #22</li>
+<li>Cleaned up meta data in bower.json and package.json</li>
+</ul>
+<h5>0.8.1 - 09 July 2013</h5><ul>
+<li>Added .jshintrc</li>
+<li>Cleaned up the docs a bit</li>
+<li><code>bower.json</code> now uses <code>src/angular-cache.js</code> instead of the versioned output files #21</li>
+<li>From now on the tags for the project will be named using <a href="http://semver.org/">semver</a></li>
+</ul>
+<h5>0.8.0 - 08 July 2013</h5><ul>
+<li>Added <code>AngularCache.setOptions()</code>, the ability to dynamically change the configuration of a cache #20</li>
+<li>Added <code>AngularCache.keys()</code>, which returns an array of the keys in a cache #19</li>
+<li>Added <code>AngularCache.keySet()</code>, which returns a hash of the keys in a cache #19</li>
+</ul>
+<h5>0.7.2 - June 2013</h5><ul>
+<li>Added <code>angular-cache</code> to bower registry #7</li>
+<li>Created a working demo #9 #17</li>
+<li>Fixed the size not being reset to 0 when the cache clears itself #14 #16</li>
+<li>Added <code>$angularCacheFactory.keys()</code>, which returns an array of the keys (the names of the caches) in $angularCacheFactory #18</li>
+<li>Added <code>$angularCacheFactory.keySet()</code>, which returns a hash of the keys (the names of the caches) in $angularCacheFactory #18</li>
+</ul>
+<h5>0.6.1 - June 2013</h5><ul>
+<li>Got the project building on TravisCI</li>
+<li>Renamed the project to <code>angular-cache</code> #5</li>
+</ul>
+<h5>0.5.0 - June 2013</h5><ul>
+<li>Added a roadmap to README.md #4</li>
+<li>Clarify usage documentation #3</li>
+<li>Wrote unit tests #2</li>
+</ul>
+<h5>0.4.0 - May 2013</h5><ul>
+<li>Added Grunt build tasks #1</li>
+</ul><!-- bower:js--><script src="lib/jquery/dist/jquery.js"></script><script src="lib/angular/angular.js"></script><script src="lib/ngMessage/ngMessage.js"></script><script src="lib/angular-ui-router/release/angular-ui-router.js"></script><script src="lib/ngstorage/ngStorage.js"></script><script src="lib/angular-cache/dist/angular-cache.js"></script><script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script><script src="lib/angular-auth-interceptor/authHandler.js"></script><script src="lib/angular-animate/angular-animate.js"></script><script src="lib/angular-aria/angular-aria.js"></script><script src="lib/angular-material/angular-material.js"></script><script src="lib/angular-material-icons/angular-material-icons.min.js"></script><script src="lib/ng-file-upload/ng-file-upload.js"></script><!-- endbower--><script src="js/current-upload/current-upload.service.js"></script><script src="js/render/render.directive.js"></script><script src="js/upload/upload.directive.js"></script><script src="js/index.directive.js"></script><script src="js/app.routes.js"></script><script src="js/app.js"></script></body></html>
