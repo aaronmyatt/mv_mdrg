@@ -35,14 +35,24 @@
         }
     }
 
-    controller.$inject = ["$log", "$rootScope", "EVENT", "currentUploadService"];
-    function controller($log, $rootScope, EVENT, currentUploadService) {
-        $log.info("grRenderDirective has been initialized");
+    controller.$inject = ["$log", "$rootScope", "EVENT", "currentUploadService", "$http"];
+    function controller($log, $rootScope, EVENT, currentUploadService, $http) {
         var vm = this;
         vm.resume = {};
+
         $rootScope.$on(EVENT.updateUpload, function(){
             vm.resume = currentUploadService.getUpload();
             $log.info("updateUpload event received");
         });
+
+        function init(){
+            $log.info("grRenderDirective has been initialized");
+
+            $http.get("/resume.json").then(function(data){
+                $log.info("Retreived example json", data);
+                vm.resume = data.data;
+            })
+        }
+        init();
     }
 })();

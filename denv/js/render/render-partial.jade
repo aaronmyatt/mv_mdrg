@@ -1,30 +1,51 @@
 //md-content(class="md-padding" layout-xs="column" layout="row")
 //  div(flex-xs flex-gt-xs="50" layout="column")
 //
-div(ng-if="vm.resume")
+div(ng-if="vm.resume.name")
+  h1 Your Resume
   md-grid-list(
     md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6"
     md-row-height-gt-md="1:1" md-row-height="2:2"
     md-gutter="12px" md-gutter-gt-sm="8px")
 
-    md-grid-tile(class="gray" md-rowspan="2" md-colspan="2" md-colspan-sm="2")
+    md-grid-tile(class="green" md-rowspan="2" md-colspan="2" md-colspan-sm="2" style="background: #b9f6ca;")
+      md-grid-tile-header
+        h3 Personal Details
+      img(ng-src="{{vm.resume.image}}" class="md-user-avatar" alt="profile")
       md-card
         md-card-header
-          md-card-avatar
-            img(ng-src="{{vm.resume.image}}" class="md-user-avatar" alt="profile")
           md-card-title-text
             span(class="md-headline") {{ vm.resume.name }}
             span(class="md-subhead") {{ vm.resume.job_title }}
+        md-card-content
+          md-list
+            md-list-item(class="md-3-line" )
+              ng-md-icon(icon="phone" style="fill: black" size="50")
+              div(class="md-list-item-text")
+                h4 Mobile
+                h3 {{vm.resume.contact_details.mobile }}
+            md-list-item(class="md-3-line" )
+              ng-md-icon(icon="email" style="fill: black" size="50")
+              div(class="md-list-item-text")
+                h4 Mobile
+                h3 {{vm.resume.contact_details.email }}
 
-      md-grid-tile-footer
-        h3 Personal Details
+    md-grid-tile( style="background: #f0f4c3;" md-rowspan="2" md-colspan="2" md-colspan-sm="2")
+      md-list
+        md-grid-tile-header
+          h3 Summary
+        md-list-item(class="md-3-line" ng-repeat="s in vm.resume.summary track by $index")
+          ng-md-icon(icon="filter_{{$index+1}}" style="fill: black" size="55")
+          div(class="md-list-item-text")
+            p {{s}}
 
-    md-grid-tile( class="red" md-rowspan="2" md-colspan="2" md-colspan-sm="2" ng-repeat="(k,v) in vm.resume.experience")
+
+    md-grid-tile( style="background: #80d8ff;" md-rowspan="2" md-colspan="2" md-colspan-sm="2" ng-repeat="(k,v) in vm.resume.experience")
       md-grid-tile-header
         h3 {{k | uppercase}}
       md-list
         md-list-item(class="md-3-line" )
-          ng-md-icon(icon="work" style="fill: black" size="60")
+          ng-md-icon(icon="work" style="fill: black" size="50")
           div(class="md-list-item-text")
             h4 Position: {{v.position | uppercase }}
             p {{v.desc}}
